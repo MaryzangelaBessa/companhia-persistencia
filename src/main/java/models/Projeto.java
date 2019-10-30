@@ -2,16 +2,32 @@ package models;
 
 import models.funcionarios.Pesquisador;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "projeto")
 public class Projeto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numero")
     private int numero;
+
+    @Column(name = "nome")
     private String nome;
+
+    @Column(name = "horas_duracao")
     private int horasDuracao;
+
+    @Column(name = "departamento")
     private Departamento departamento;
+
+    @Column(name = "pesquisadores")
     private List<Pesquisador> pesquisadores;
 
-    public Projeto() {}
+    public Projeto() {
+    }
 
     public Projeto(String nome, int horasDuracao, Departamento departamento, List<Pesquisador> pesquisadores) {
         this.nome = nome;

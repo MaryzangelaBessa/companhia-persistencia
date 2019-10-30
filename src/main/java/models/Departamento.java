@@ -1,11 +1,24 @@
 package models;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "departamento")
 public class Departamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numero")
     private int numero;
+
+    @Column(name = "nome")
     private String nome;
+
+    @Column(name = "funcionarios")
     private List<Funcionario> funcionarios;
+
+    @Column(name = "projetos")
     private List<Projeto> projetos;
 
     public Departamento() {}
