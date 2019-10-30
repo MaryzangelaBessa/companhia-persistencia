@@ -68,6 +68,38 @@ public class AuxLimpeza extends Funcionario {
         this.auxLimpezaGerenciados = auxLimpezaGerenciados;
     }
 
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public int getHorasJornadaTrabalho() {
+        return horasJornadaTrabalho;
+    }
+
+    public void setHorasJornadaTrabalho(int horasJornadaTrabalho) {
+        this.horasJornadaTrabalho = horasJornadaTrabalho;
+    }
+
+    public AuxLimpeza getAuxLimpezaGerente() {
+        return auxLimpezaGerente;
+    }
+
+    public void setAuxLimpezaGerente(AuxLimpeza auxLimpezaGerente) {
+        this.auxLimpezaGerente = auxLimpezaGerente;
+    }
+
+    public List<AuxLimpeza> getAuxLimpezaGerenciados() {
+        return auxLimpezaGerenciados;
+    }
+
+    public void setAuxLimpezaGerenciados(List<AuxLimpeza> auxLimpezaGerenciados) {
+        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
+    }
+
     @Override
     public String toString() {
         return "Funcionario{" +
