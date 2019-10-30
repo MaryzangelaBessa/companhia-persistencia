@@ -74,7 +74,6 @@ public class Projeto {
                 "numero=" + numero +
                 ", nome='" + nome + '\'' +
                 ", horasDuracao=" + horasDuracao +
-                ", departamento=" + departamento +
                 ", pesquisadores=" + pesquisadores +
                 '}';
     }
