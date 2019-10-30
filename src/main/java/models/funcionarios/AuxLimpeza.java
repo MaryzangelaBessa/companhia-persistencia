@@ -22,6 +22,13 @@ public class AuxLimpeza extends Funcionario {
         this.auxLimpezaGerente = auxLimpezaGerente;
     }
 
+    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
+        super(nome, endereco, sexo, dataNascimento, salario, departamento);
+        this.cargo = cargo;
+        this.horasJornadaTrabalho = horasJornadaTrabalho;
+        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
+    }
+
     public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.cargo = cargo;
@@ -37,6 +44,13 @@ public class AuxLimpeza extends Funcionario {
         this.auxLimpezaGerente = auxLimpezaGerente;
     }
 
+    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
+        super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
+        this.cargo = cargo;
+        this.horasJornadaTrabalho = horasJornadaTrabalho;
+        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
+    }
+
     public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
         this.cargo = cargo;
@@ -50,6 +64,13 @@ public class AuxLimpeza extends Funcionario {
         this.cargo = cargo;
         this.horasJornadaTrabalho = horasJornadaTrabalho;
         this.auxLimpezaGerente = auxLimpezaGerente;
+    }
+
+    public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
+        super(id, nome, endereco, sexo, dataNascimento, salario, departamento);
+        this.cargo = cargo;
+        this.horasJornadaTrabalho = horasJornadaTrabalho;
+        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
     }
 
     public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
