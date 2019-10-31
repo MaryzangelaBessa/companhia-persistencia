@@ -30,6 +30,7 @@ public class Projeto {
     private Departamento departamento;
 
     @Column(name = "pesquisadores")
+    @ManyToMany(mappedBy = "projetos")
     private List<Pesquisador> pesquisadores;
 
     public Projeto(String nome, int horasDuracao, Departamento departamento, List<Pesquisador> pesquisadores) {

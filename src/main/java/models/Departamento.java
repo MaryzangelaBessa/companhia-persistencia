@@ -23,9 +23,11 @@ public class Departamento {
     private String nome;
 
     @Column(name = "funcionarios")
+    @OneToMany(mappedBy = "departamento")
     private List<Funcionario> funcionarios;
 
     @Column(name = "projetos")
+    @OneToMany(mappedBy = "departamento")
     private List<Projeto> projetos;
 
     public Departamento(String nome, List<Funcionario> funcionarios, List<Projeto> projetos) {

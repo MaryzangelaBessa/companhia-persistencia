@@ -9,9 +9,7 @@ import models.Dependente;
 import models.Funcionario;
 import models.Projeto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,6 +25,12 @@ public class Pesquisador extends Funcionario {
     private String areaAtuacao;
 
     @Column(name = "projetos")
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "pesquisador_projeto",
+            joinColumns = {@JoinColumn(name = "pesquisador_id")},
+            inverseJoinColumns = {@JoinColumn(name = "projeto_id")}
+    )
     private List<Projeto> projetos;
 
     public Pesquisador(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String areaAtuacao, List<Projeto> projetos) {

@@ -29,6 +29,7 @@ public class Dependente {
     @Column(name = "data_nascimento")
     private Calendar dataNascimento;
 
+    @Column(name = "funcionario")
     private Funcionario funcionario;
 
     public Dependente(String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {

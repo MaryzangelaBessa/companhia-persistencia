@@ -38,7 +38,8 @@ public class Funcionario {
     @Column(name = "departamento")
     private Departamento departamento;
 
-    @Column(name = "email")
+    @Column(name = "dependentes")
+    @OneToMany(mappedBy = "funcionario")
     private List<Dependente> dependentes;
 
     public Funcionario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento) {
