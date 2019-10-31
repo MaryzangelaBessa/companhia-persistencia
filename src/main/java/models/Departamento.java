@@ -3,6 +3,7 @@ package models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,10 @@ public class Departamento {
     @Column(name = "projetos")
     @OneToMany(mappedBy = "departamento")
     private List<Projeto> projetos;
+
+    public Departamento(String nome) {
+        this(0, nome, new ArrayList<Funcionario>(), new ArrayList<Projeto>());
+    }
 
     public Departamento(String nome, List<Funcionario> funcionarios, List<Projeto> projetos) {
         this(0, nome, funcionarios, projetos);
