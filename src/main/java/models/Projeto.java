@@ -1,7 +1,6 @@
 package models;
 
 import lombok.*;
-import models.funcionarios.Pesquisador;
 
 import javax.persistence.*;
 import java.util.List;

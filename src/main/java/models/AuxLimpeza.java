@@ -1,12 +1,9 @@
-package models.funcionarios;
+package models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import models.Departamento;
-import models.Dependente;
-import models.Funcionario;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package models.funcionarios;
+package models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
