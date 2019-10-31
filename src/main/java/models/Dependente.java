@@ -1,10 +1,17 @@
 package models;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
 
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "dependente")
 public class Dependente {
 
@@ -24,28 +31,7 @@ public class Dependente {
 
     private Funcionario funcionario;
 
-    public Dependente() {
-    }
-
     public Dependente(String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {
         this(0, nome, sexo, dataNascimento, funcionario);
-    }
-
-    public Dependente(int id, String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {
-        this.id = id;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.dataNascimento = dataNascimento;
-        this.funcionario = funcionario;
-    }
-
-    @Override
-    public String toString() {
-        return "Dependente{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", sexo='" + sexo + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                '}';
     }
 }
