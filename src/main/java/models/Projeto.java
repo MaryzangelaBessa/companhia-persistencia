@@ -26,6 +26,8 @@ public class Projeto {
     private int horasDuracao;
 
     @Column(name = "departamento")
+    @ManyToOne
+    @JoinColumn(name = "departamento_numero")
     private Departamento departamento;
 
     @Column(name = "pesquisadores")

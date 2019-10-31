@@ -30,6 +30,8 @@ public class Dependente {
     private Calendar dataNascimento;
 
     @Column(name = "funcionario")
+    @ManyToOne
+    @JoinColumn(name="funcionario_id")
     private Funcionario funcionario;
 
     public Dependente(String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {
