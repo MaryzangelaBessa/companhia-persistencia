@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "departamento")
@@ -36,5 +35,26 @@ public class Departamento {
         this.nome = nome;
         this.funcionarios = new ArrayList<Funcionario>();
         this.projetos = new ArrayList<Projeto>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Departamento that = (Departamento) o;
+
+        return numero.equals(that.numero);
+    }
+
+    @Override
+    public int hashCode() {
+        return numero.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ">  (" + numero +
+                ") " + nome;
     }
 }
