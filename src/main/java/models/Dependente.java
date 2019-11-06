@@ -10,14 +10,13 @@ import java.util.Calendar;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "dependente")
 public class Dependente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero")
-    private int id;
+    private Long id;
 
     @Column(name = "nome")
     private String nome;
@@ -34,6 +33,10 @@ public class Dependente {
     private Funcionario funcionario;
 
     public Dependente(String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {
-        this(0, nome, sexo, dataNascimento, funcionario);
+        this.id = null;
+        this.nome = nome;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.funcionario = funcionario;
     }
 }
