@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,10 +24,13 @@ public class AuxLimpeza extends Funcionario {
     @Column(name = "horas_jornada_trabalho")
     private int horasJornadaTrabalho;
 
-    @Column(name = "auxiliar_limpeza_gerente")
+    // @Column(name = "auxiliar_limpeza_gerente")
+    @ManyToOne
+    @JoinColumn(name = "auxiliar_limpeza_gerente_id")
     private AuxLimpeza auxLimpezaGerente;
 
     @Column(name = "auxiliar_limpeza_gerenciados")
+    @OneToMany(mappedBy = "auxLimpezaGerente")
     private List<AuxLimpeza> auxLimpezaGerenciados;
 
     public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho) {

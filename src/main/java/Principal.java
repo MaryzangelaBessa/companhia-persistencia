@@ -14,7 +14,8 @@ public class Principal {
 
         try {
             dDAO.beginTransaction();
-            dDAO.save(new Departamento("Computação"));
+            //dDAO.save(new Departamento("Computação"));
+            dDAO.save(new Departamento("RH"));
             dDAO.commit();
         }catch (IllegalStateException | PersistenceException e){
             dDAO.rollback();

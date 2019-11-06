@@ -27,7 +27,7 @@ public class Dependente {
     @Column(name = "data_nascimento")
     private Calendar dataNascimento;
 
-    @Column(name = "funcionario")
+    // @Column(name = "funcionario")
     @ManyToOne
     @JoinColumn(name="funcionario_id")
     private Funcionario funcionario;

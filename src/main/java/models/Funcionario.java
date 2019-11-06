@@ -35,7 +35,7 @@ public class Funcionario {
     @Column(name = "salario")
     private Double salario;
 
-    @Column(name = "departamento")
+    // @Column(name = "departamento")
     @ManyToOne
     @JoinColumn(name = "departamento_numero")
     private Departamento departamento;
