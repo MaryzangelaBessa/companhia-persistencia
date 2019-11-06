@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Calendar;
 
-
 @Entity
 @Getter
 @Setter

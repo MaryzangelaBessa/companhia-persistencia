@@ -29,19 +29,4 @@ public class Secretario extends Funcionario {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.grauEscoladidade = grauEscoladidade;
     }
-
-    public Secretario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String grauEscoladidade) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.grauEscoladidade = grauEscoladidade;
-    }
-
-    public Secretario(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String grauEscoladidade) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.grauEscoladidade = grauEscoladidade;
-    }
-
-    public Secretario(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String grauEscoladidade) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.grauEscoladidade = grauEscoladidade;
-    }
 }

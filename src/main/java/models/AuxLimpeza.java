@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,77 +32,12 @@ public class AuxLimpeza extends Funcionario {
     @Column(name = "auxiliar_limpeza_gerenciados")
     private List<AuxLimpeza> auxLimpezaGerenciados;
 
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente) {
+    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.cargo = cargo;
         this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
+        this.auxLimpezaGerente = null;
+        this.auxLimpezaGerenciados = new ArrayList<AuxLimpeza>();
     }
 
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-    }
-
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super(nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-    }
-
-    public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
-
-    public AuxLimpeza(int id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes, String cargo, int horasJornadaTrabalho, AuxLimpeza auxLimpezaGerente, List<AuxLimpeza> auxLimpezaGerenciados) {
-        super((long) id, nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-        this.cargo = cargo;
-        this.horasJornadaTrabalho = horasJornadaTrabalho;
-        this.auxLimpezaGerente = auxLimpezaGerente;
-        this.auxLimpezaGerenciados = auxLimpezaGerenciados;
-    }
 }

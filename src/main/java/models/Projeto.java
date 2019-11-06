@@ -3,6 +3,7 @@ package models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,10 +35,10 @@ public class Projeto {
     @ManyToMany(mappedBy = "projetos")
     private List<Pesquisador> pesquisadores;
 
-    public Projeto(String nome, int horasDuracao, Departamento departamento, List<Pesquisador> pesquisadores) {
+    public Projeto(String nome, int horasDuracao, Departamento departamento) {
         this.nome = nome;
         this.horasDuracao = horasDuracao;
         this.departamento = departamento;
-        this.pesquisadores = pesquisadores;
+        this.pesquisadores = new ArrayList<Pesquisador>();
     }
 }

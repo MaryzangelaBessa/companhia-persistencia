@@ -3,6 +3,7 @@ package models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "funcionario")
 public class Funcionario {
 
@@ -45,20 +45,14 @@ public class Funcionario {
     private List<Dependente> dependentes;
 
     public Funcionario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento) {
-        this(null, nome, endereco, sexo, dataNascimento, salario, departamento);
-    }
-
-    public Funcionario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, List<Dependente> dependentes) {
-        this(null, nome, endereco, sexo, dataNascimento, salario, departamento, dependentes);
-    }
-
-    public Funcionario(Long id, String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento) {
-        this.id = id;
+        this.id = null;
         this.nome = nome;
         this.endereco = endereco;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.salario = salario;
         this.departamento = departamento;
+        this.dependentes = new ArrayList<Dependente>();
     }
+
 }

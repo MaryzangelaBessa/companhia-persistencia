@@ -18,7 +18,7 @@ public class Departamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero")
-    private int numero;
+    private Long numero;
 
     @Column(name = "nome")
     private String nome;
@@ -32,10 +32,9 @@ public class Departamento {
     private List<Projeto> projetos;
 
     public Departamento(String nome) {
-        this(0, nome, new ArrayList<Funcionario>(), new ArrayList<Projeto>());
-    }
-
-    public Departamento(String nome, List<Funcionario> funcionarios, List<Projeto> projetos) {
-        this(0, nome, funcionarios, projetos);
+        this.numero = null;
+        this.nome = nome;
+        this.funcionarios = new ArrayList<Funcionario>();
+        this.projetos = new ArrayList<Projeto>();
     }
 }
