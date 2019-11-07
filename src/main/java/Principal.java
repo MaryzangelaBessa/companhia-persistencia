@@ -9,6 +9,7 @@ import models.Funcionario;
 import models.Projeto;
 
 import javax.persistence.PersistenceException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -85,7 +86,7 @@ public class Principal {
         String nomeDepartamento = null;
         try {
             dDAO.beginTransaction();
-            System.out.println("Digite o nome do departamento a ser criado: ");
+            System.out.println("Digite o nome do departamento a ser cadastrado: ");
             nomeDepartamento = scanner.nextLine();
             dDAO.save(new Departamento(nomeDepartamento));
             dDAO.commit();
@@ -136,9 +137,9 @@ public class Principal {
 
             System.out.println("Digite o número do departamento que o projeto pertencerá: ");
             numDepartamento = Long.parseLong(scanner.nextLine());
-            System.out.println("Digite o nome do projeto que será criado: ");
+            System.out.println("Digite o nome do projeto que será cadastrado: ");
             nomeProjeto = scanner.nextLine();
-            System.out.println("Digite a duração (em horas inteiras) do projeto que será criado: ");
+            System.out.println("Digite a duração (em horas inteiras) do projeto que será cadastrado: ");
             horasDuracao = Integer.parseInt(scanner.nextLine());
 
             List<Departamento> departamentos = dDAO.findAll();
@@ -168,7 +169,52 @@ public class Principal {
     }
 
     public static void cadastrarFuncionarios(){
+        numDepartamento = null;
+        String nomeFuncionario = null;
+        String endFuncionario = null;
+        String sexoFuncionario = null;
+        Calendar dataNascFuncionario = null;
+        Double salario = null;
 
+        listarDepartamentos();
+
+        try {
+            dDAO.beginTransaction();
+
+            System.out.println("Digite o número do departamento que o funcionário pertencerá: ");
+            numDepartamento = Long.parseLong(scanner.nextLine());
+            System.out.println("Digite o nome do funcionário que será cadastrado: ");
+            nomeFuncionario = scanner.nextLine();
+            System.out.println("Digite o endereço do funcionário que será cadastrado: ");
+            endFuncionario = scanner.nextLine();
+            System.out.println("Digite o sexo do funcionário que será cadastrado: ");
+            sexoFuncionario = scanner.nextLine();
+            System.out.println("Digite o sexo do funcionário que será cadastrado: ");
+
+            List<Departamento> departamentos = dDAO.findAll();
+
+            if (numDepartamento != null) {
+                for (Departamento departamento : departamentos) {
+                    if (departamento.getNumero().equals(numDepartamento)) {
+                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
+                        pDAO.save(projeto);
+                        pDAO.commit();
+                        departamento.getProjetos().add(projeto);
+                        dDAO.save(departamento);
+                        dDAO.commit();
+                        break;
+                    }
+                }
+            }
+
+        }catch (IllegalStateException | PersistenceException e) {
+            dDAO.rollback();
+            fDAO.rollback();
+            e.printStackTrace();
+        } finally {
+            dDAO.close();
+            fDAO.close();
+        }
     }
 
 
