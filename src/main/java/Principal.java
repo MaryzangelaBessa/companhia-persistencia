@@ -5,6 +5,7 @@ import daos.jpa.DepartamentoJPADAO;
 import daos.jpa.FuncionarioJPADAO;
 import daos.jpa.ProjetoJPADAO;
 import models.Departamento;
+import models.Funcionario;
 import models.Projeto;
 
 import javax.persistence.PersistenceException;
@@ -23,16 +24,15 @@ public class Principal {
 
     public static void main(String[] args) {
 
-        boolean run = true;
         scanner = new Scanner(System.in);
 
-        while (run) {
+        while (true) {
             System.out.println("\n----------MENU----------");
             System.out.println("Escolha uma opção:");
             System.out.println("1 - Inserir Departamento"); //ok
             System.out.println("2 - Listar Departamentos"); //ok
-            System.out.println("3 - Listar Projetos");
-            System.out.println("4 - Listar Funcionários");
+            System.out.println("3 - Listar Projetos"); //ok
+            System.out.println("4 - Listar Funcionários"); //ok
             System.out.println("5 - Cadastrar Projetos"); //ok
             System.out.println("6 - Cadastrar Funcionários"); //Todo: gOoodinho
             System.out.println("7 - Deletar Departamento"); //ok
@@ -52,19 +52,26 @@ public class Principal {
                     listarDepartamentos();
                     break;
                 case 3:
+                    listarProjetos();
                     scanner.nextLine();
-                    cadastrarProjetos();
                     break;
                 case 4:
                     scanner.nextLine();
-                    System.out.println("Cadastrar Funcionários");
+                    listarFuncionarios();
                     break;
                 case 5:
+                    scanner.nextLine();
+                    cadastrarProjetos();
+                    break;
+                case 6:
+                    scanner.nextLine();
+                    System.out.println("Cadastrar Funcionários");
+                    break;
+                case 7:
                     scanner.nextLine();
                     deletarDepartamento();
                     break;
                 case 0:
-                    run = false;
                     System.out.println("GoodBye!");
                     return;
                 default:
@@ -74,7 +81,7 @@ public class Principal {
         }
     }
 
-    public static void inserirDepartamento() {
+    private static void inserirDepartamento() {
         String nomeDepartamento = null;
         try {
             dDAO.beginTransaction();
@@ -90,7 +97,7 @@ public class Principal {
         }
     }
 
-    public static void listarDepartamentos(){
+    private static void listarDepartamentos(){
         List<Departamento> departamentos = dDAO.findAll();
         dDAO.close();
         System.out.println("\n\n" + "Lista de Departamentos");
@@ -99,7 +106,25 @@ public class Principal {
         }
     }
 
-    public static void cadastrarProjetos(){
+    private static void listarProjetos(){
+        List<Projeto> projetos = pDAO.findAll();
+        pDAO.close();
+        System.out.println("\n\n" + "Lista de Projetos");
+        for (Projeto projeto : projetos) {
+            System.out.println(projeto);
+        }
+    }
+
+    private static void listarFuncionarios(){
+        List<Funcionario> funcionarios = fDAO.findAll();
+        fDAO.close();
+        System.out.println("\n\n" + "Lista de Funcionários");
+        for (Funcionario funcionario : funcionarios) {
+            System.out.println(funcionario);
+        }
+    }
+
+    private static void cadastrarProjetos(){
         numDepartamento = null;
         String nomeProjeto = null;
         int horasDuracao;
@@ -146,7 +171,9 @@ public class Principal {
 
     }
 
-    public static void deletarDepartamento(){
+
+
+    private static void deletarDepartamento(){
         numDepartamento = null;
         try {
             dDAO.beginTransaction();

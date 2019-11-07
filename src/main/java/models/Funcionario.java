@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "funcionario")
 public class Funcionario {
@@ -55,4 +54,13 @@ public class Funcionario {
         this.dependentes = new ArrayList<Dependente>();
     }
 
+    @Override
+    public String toString() {
+        return ">  (" + id +
+                ") " + nome +
+                "\n       Endereço: " + endereco +
+                "\n       Sexo: " + sexo+
+                "\n       Data de Nascimento: " + dataNascimento +
+                "\n       Salário: " + salario;
+    }
 }

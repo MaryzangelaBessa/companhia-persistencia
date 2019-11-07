@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "projeto")
@@ -40,5 +40,13 @@ public class Projeto {
         this.horasDuracao = horasDuracao;
         this.departamento = departamento;
         this.pesquisadores = new ArrayList<Pesquisador>();
+    }
+
+    @Override
+    public String toString() {
+        return ">  (" + numero +
+                ") " + nome +
+                "\n       " + horasDuracao + " horas de duração" +
+                "\n       Departamento de " + departamento.getNome();
     }
 }
