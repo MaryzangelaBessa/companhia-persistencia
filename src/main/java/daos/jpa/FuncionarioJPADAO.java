@@ -5,7 +5,7 @@ import models.Funcionario;
 
 public class FuncionarioJPADAO extends GenericJPADAO<Funcionario> implements FuncionarioDAO {
 
-    public FuncionarioJPADAO(Class<FuncionarioJPADAO> persistenceClass) {
+    public FuncionarioJPADAO() {
         super(Funcionario.class);
     }
 }

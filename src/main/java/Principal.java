@@ -1,6 +1,11 @@
 import daos.DepartamentoDAO;
+import daos.FuncionarioDAO;
+import daos.ProjetoDAO;
 import daos.jpa.DepartamentoJPADAO;
+import daos.jpa.FuncionarioJPADAO;
+import daos.jpa.ProjetoJPADAO;
 import models.Departamento;
+import models.Projeto;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -9,7 +14,12 @@ import java.util.Scanner;
 public class Principal {
 
     private static Scanner scanner;
+
     private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
+    private static ProjetoDAO pDAO = new ProjetoJPADAO();
+    private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
+
+    private static Long numDepartamento = null;
 
     public static void main(String[] args) {
 
@@ -41,8 +51,7 @@ public class Principal {
                     break;
                 case 3:
                     scanner.nextLine();
-                    System.out.println("Cadastrar Projetos");
-
+                    cadastrarProjetos();
                     break;
                 case 4:
                     scanner.nextLine();
@@ -89,12 +98,54 @@ public class Principal {
     }
 
     public static void cadastrarProjetos(){
+        numDepartamento = null;
+        String nomeProjeto = null;
+        int horasDuracao;
 
+        listarDepartamentos();
+
+        try {
+            dDAO.beginTransaction();
+
+            System.out.println("Digite o número do departamento que o projeto pertencerá: ");
+            numDepartamento = Long.parseLong(scanner.nextLine());
+            System.out.println("Digite o nome do projeto que será criado: ");
+            nomeProjeto = scanner.nextLine();
+            System.out.println("Digite a duração (em horas inteiras) do projeto que será criado: ");
+            horasDuracao = Integer.parseInt(scanner.nextLine());
+
+            List<Departamento> departamentos = dDAO.findAll();
+
+            if (numDepartamento != null) {
+                for (Departamento departamento : departamentos) {
+                    if (departamento.getNumero().equals(numDepartamento)) {
+                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
+                        pDAO.save(projeto);
+                        pDAO.commit();
+                        departamento.getProjetos().add(projeto);
+                        dDAO.save(departamento);
+                        dDAO.commit();
+                        break;
+                    }
+                }
+            }
+
+        }catch (IllegalStateException | PersistenceException e) {
+            dDAO.rollback();
+            pDAO.rollback();
+            e.printStackTrace();
+        } finally {
+            dDAO.close();
+            pDAO.close();
+        }
+    }
+
+    public static void cadastrarFuncionarios(){
 
     }
 
     public static void deletarDepartamento(){
-        Long numDepartamento = null;
+        numDepartamento = null;
         try {
             dDAO.beginTransaction();
             System.out.println("Digite o número do departamento a ser excluído: ");
