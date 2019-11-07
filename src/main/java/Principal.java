@@ -29,12 +29,14 @@ public class Principal {
         while (run) {
             System.out.println("\n----------MENU----------");
             System.out.println("Escolha uma opção:");
-            System.out.println("1 - Inserir Departamento");
-            System.out.println("2 - Listar Departamentos");
-            System.out.println("3 - Cadastrar Projetos");
-            System.out.println("4 - Cadastrar Funcionários");
-            System.out.println("5 - Deletar Departamento");
-            System.out.println("0 - Sair");
+            System.out.println("1 - Inserir Departamento"); //ok
+            System.out.println("2 - Listar Departamentos"); //ok
+            System.out.println("3 - Listar Projetos");
+            System.out.println("4 - Listar Funcionários");
+            System.out.println("5 - Cadastrar Projetos"); //ok
+            System.out.println("6 - Cadastrar Funcionários"); //Todo: gOoodinho
+            System.out.println("7 - Deletar Departamento"); //ok
+            System.out.println("0 - Sair"); //ok
             System.out.println("---------------------------");
             System.out.println(">>> ");
 
