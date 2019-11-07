@@ -37,10 +37,11 @@ public class Principal {
             System.out.println("2 - Listar Departamentos"); //ok
             System.out.println("3 - Listar Projetos"); //ok
             System.out.println("4 - Listar Funcionários"); //ok
-            System.out.println("5 - Cadastrar Projetos"); //ok
-            System.out.println("6 - Cadastrar Funcionários"); // ok ;)
-            System.out.println("7 - Cadastrar Dependentes");
-            System.out.println("8 - Deletar Departamento"); //ok
+            System.out.println("5 - Listar Dependentes");
+            System.out.println("6 - Cadastrar Projetos"); //ok
+            System.out.println("7 - Cadastrar Funcionários"); // ok ;)
+            System.out.println("8 - Cadastrar Dependentes"); //ok
+            System.out.println("9 - Deletar Departamento"); //ok
             System.out.println("0 - Sair"); //ok
             System.out.println("---------------------------");
             System.out.println(">>> ");
@@ -66,17 +67,21 @@ public class Principal {
                     break;
                 case 5:
                     scanner.nextLine();
-                    cadastrarProjetos();
+                    listarDependentes();
                     break;
                 case 6:
                     scanner.nextLine();
-                    cadastrarFuncionarios();
+                    cadastrarProjetos();
                     break;
                 case 7:
                     scanner.nextLine();
-                    cadastrarDependentes();
+                    cadastrarFuncionarios();
                     break;
                 case 8:
+                    scanner.nextLine();
+                    cadastrarDependentes();
+                    break;
+                case 9:
                     scanner.nextLine();
                     deletarDepartamento();
                     break;
@@ -130,6 +135,15 @@ public class Principal {
         System.out.println("\n\n" + "Lista de Funcionários");
         for (Funcionario funcionario : funcionarios) {
             System.out.println(funcionario);
+        }
+    }
+
+    private static void listarDependentes() {
+        List<Dependente> dependentes = depDAO.findAll();
+        depDAO.close();
+        System.out.println("\n\n" + "Lista de Dependentes");
+        for (Dependente dependente : dependentes) {
+            System.out.println(dependente);
         }
     }
 

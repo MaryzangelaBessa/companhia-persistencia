@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "dependente")
 public class Dependente {
@@ -37,5 +36,13 @@ public class Dependente {
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.funcionario = funcionario;
+    }
+
+    @Override
+    public String toString() {
+        return ">  (" + id +
+                ") " + nome +
+                "\n       Sexo: " + sexo +
+                "\n       Data de Nascimento: " + dataNascimento;
     }
 }
