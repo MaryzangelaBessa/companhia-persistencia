@@ -3,7 +3,6 @@ package models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Calendar;
 
 @Entity
 @Getter
@@ -25,14 +24,14 @@ public class Dependente {
     private String sexo;
 
     @Column(name = "data_nascimento")
-    private Calendar dataNascimento;
+    private String dataNascimento;
 
     // @Column(name = "funcionario")
     @ManyToOne
     @JoinColumn(name="funcionario_id")
     private Funcionario funcionario;
 
-    public Dependente(String nome, String sexo, Calendar dataNascimento, Funcionario funcionario) {
+    public Dependente(String nome, String sexo, String dataNascimento, Funcionario funcionario) {
         this.id = null;
         this.nome = nome;
         this.sexo = sexo;

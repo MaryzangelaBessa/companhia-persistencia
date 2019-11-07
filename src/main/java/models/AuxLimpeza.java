@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -33,7 +32,7 @@ public class AuxLimpeza extends Funcionario {
     @OneToMany(mappedBy = "auxLimpezaGerente")
     private List<AuxLimpeza> auxLimpezaGerenciados;
 
-    public AuxLimpeza(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho) {
+    public AuxLimpeza(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.cargo = cargo;
         this.horasJornadaTrabalho = horasJornadaTrabalho;

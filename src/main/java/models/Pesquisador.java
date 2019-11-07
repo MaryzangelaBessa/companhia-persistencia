@@ -11,7 +11,6 @@ import models.Projeto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -34,7 +33,7 @@ public class Pesquisador extends Funcionario {
     )
     private List<Projeto> projetos;
 
-    public Pesquisador(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String areaAtuacao) {
+    public Pesquisador(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento, String areaAtuacao) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.areaAtuacao = areaAtuacao;
         this.projetos = new ArrayList<Projeto>();

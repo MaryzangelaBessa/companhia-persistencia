@@ -1,10 +1,13 @@
 import daos.DepartamentoDAO;
+import daos.DependenteDAO;
 import daos.FuncionarioDAO;
 import daos.ProjetoDAO;
 import daos.jpa.DepartamentoJPADAO;
+import daos.jpa.DependenteJPADAO;
 import daos.jpa.FuncionarioJPADAO;
 import daos.jpa.ProjetoJPADAO;
 import models.Departamento;
+import models.Dependente;
 import models.Funcionario;
 import models.Projeto;
 
@@ -19,6 +22,7 @@ public class Principal {
     private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
     private static ProjetoDAO pDAO = new ProjetoJPADAO();
     private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
+    private static DependenteDAO depDAO = new DependenteJPADAO();
 
     private static Long numDepartamento = null;
 
@@ -222,11 +226,51 @@ public class Principal {
 
     private static void cadastrarDependentes(){
         Long idFuncionario = null;
-        String nomeFuncionario = null;
-        String sexoFuncionario = null;
-        String dataNascFuncionario = null;
+        String nomeDependente = null;
+        String sexoDependente = null;
+        String dataNascDependente = null;
 
+        List<Funcionario> funcionarios = fDAO.findAll();
+        fDAO.close();
+        System.out.println("\n\n" + "Lista de Funcionário");
+        for (Funcionario funcionario : funcionarios) {
+            System.out.println(funcionario);
+        }
 
+        try {
+            dDAO.beginTransaction();
+
+            System.out.println("Digite o id do funcionário que o dependente pertencerá: ");
+            idFuncionario = Long.parseLong(scanner.nextLine());
+            System.out.println("Digite o nome do dependente que será cadastrado: ");
+            nomeDependente = scanner.nextLine();
+            System.out.println("Digite o sexo do dependente que será cadastrado: ");
+            sexoDependente = scanner.nextLine();
+            System.out.println("Digite a data de nascimento do dependente que será cadastrado: ");
+            dataNascDependente = scanner.nextLine();
+
+            if (idFuncionario != null) {
+                for (Funcionario funcionario : funcionarios) {
+                    if (funcionario.getId().equals(idFuncionario)) {
+                        Dependente dependente = new Dependente(nomeDependente, sexoDependente, dataNascDependente, funcionario);
+                        depDAO.save(dependente);
+                        depDAO.commit();
+                        funcionario.getDependentes().add(dependente);
+                        fDAO.save(funcionario);
+                        fDAO.commit();
+                        break;
+                    }
+                }
+            }
+
+        } catch (IllegalStateException | PersistenceException e) {
+            depDAO.rollback();
+            fDAO.rollback();
+            e.printStackTrace();
+        } finally {
+            depDAO.close();
+            fDAO.close();
+        }
     }
     private static void deletarDepartamento() {
         numDepartamento = null;

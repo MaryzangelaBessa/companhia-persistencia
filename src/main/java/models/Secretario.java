@@ -11,8 +11,6 @@ import models.Funcionario;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Getter
@@ -25,7 +23,7 @@ public class Secretario extends Funcionario {
     @Column(name = "grau_escolaridade")
     private String grauEscoladidade;
     
-    public Secretario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento, String grauEscoladidade) {
+    public Secretario(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento, String grauEscoladidade) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.grauEscoladidade = grauEscoladidade;
     }
