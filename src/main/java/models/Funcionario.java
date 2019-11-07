@@ -1,10 +1,11 @@
 package models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Funcionario {
     private String sexo;
 
     @Column(name = "data_nascimento")
-    private Calendar dataNascimento;
+    private String dataNascimento;
 
     @Column(name = "salario")
     private Double salario;
@@ -43,7 +44,7 @@ public class Funcionario {
     @OneToMany(mappedBy = "funcionario")
     private List<Dependente> dependentes;
 
-    public Funcionario(String nome, String endereco, String sexo, Calendar dataNascimento, Double salario, Departamento departamento) {
+    public Funcionario(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento) {
         this.id = null;
         this.nome = nome;
         this.endereco = endereco;
@@ -59,7 +60,7 @@ public class Funcionario {
         return ">  (" + id +
                 ") " + nome +
                 "\n       Endereço: " + endereco +
-                "\n       Sexo: " + sexo+
+                "\n       Sexo: " + sexo +
                 "\n       Data de Nascimento: " + dataNascimento +
                 "\n       Salário: " + salario;
     }

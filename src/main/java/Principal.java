@@ -9,7 +9,6 @@ import models.Funcionario;
 import models.Projeto;
 
 import javax.persistence.PersistenceException;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,7 +34,7 @@ public class Principal {
             System.out.println("3 - Listar Projetos"); //ok
             System.out.println("4 - Listar Funcionários"); //ok
             System.out.println("5 - Cadastrar Projetos"); //ok
-            System.out.println("6 - Cadastrar Funcionários"); //Todo: gOoodinho
+            System.out.println("6 - Cadastrar Funcionários"); // ok ;)
             System.out.println("7 - Deletar Departamento"); //ok
             System.out.println("0 - Sair"); //ok
             System.out.println("---------------------------");
@@ -66,7 +65,7 @@ public class Principal {
                     break;
                 case 6:
                     scanner.nextLine();
-                    System.out.println("Cadastrar Funcionários");
+                    cadastrarFuncionarios();
                     break;
                 case 7:
                     scanner.nextLine();
@@ -98,7 +97,7 @@ public class Principal {
         }
     }
 
-    private static void listarDepartamentos(){
+    private static void listarDepartamentos() {
         List<Departamento> departamentos = dDAO.findAll();
         dDAO.close();
         System.out.println("\n\n" + "Lista de Departamentos");
@@ -107,7 +106,7 @@ public class Principal {
         }
     }
 
-    private static void listarProjetos(){
+    private static void listarProjetos() {
         List<Projeto> projetos = pDAO.findAll();
         pDAO.close();
         System.out.println("\n\n" + "Lista de Projetos");
@@ -116,7 +115,7 @@ public class Principal {
         }
     }
 
-    private static void listarFuncionarios(){
+    private static void listarFuncionarios() {
         List<Funcionario> funcionarios = fDAO.findAll();
         fDAO.close();
         System.out.println("\n\n" + "Lista de Funcionários");
@@ -125,7 +124,7 @@ public class Principal {
         }
     }
 
-    private static void cadastrarProjetos(){
+    private static void cadastrarProjetos() {
         numDepartamento = null;
         String nomeProjeto = null;
         int horasDuracao;
@@ -158,7 +157,7 @@ public class Principal {
                 }
             }
 
-        }catch (IllegalStateException | PersistenceException e) {
+        } catch (IllegalStateException | PersistenceException e) {
             dDAO.rollback();
             pDAO.rollback();
             e.printStackTrace();
@@ -168,12 +167,12 @@ public class Principal {
         }
     }
 
-    public static void cadastrarFuncionarios(){
+    public static void cadastrarFuncionarios() {
         numDepartamento = null;
         String nomeFuncionario = null;
         String endFuncionario = null;
         String sexoFuncionario = null;
-        Calendar dataNascFuncionario = null;
+        String dataNascFuncionario = null;
         Double salario = null;
 
         listarDepartamentos();
@@ -189,17 +188,20 @@ public class Principal {
             endFuncionario = scanner.nextLine();
             System.out.println("Digite o sexo do funcionário que será cadastrado: ");
             sexoFuncionario = scanner.nextLine();
-            System.out.println("Digite o sexo do funcionário que será cadastrado: ");
+            System.out.println("Digite a data de nascimento do funcionário que será cadastrado: ");
+            dataNascFuncionario = scanner.nextLine();
+            System.out.println("Digite o salário do funcionário que será cadastrado: ");
+            salario = Double.parseDouble(scanner.nextLine());
 
             List<Departamento> departamentos = dDAO.findAll();
 
             if (numDepartamento != null) {
                 for (Departamento departamento : departamentos) {
                     if (departamento.getNumero().equals(numDepartamento)) {
-                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
-                        pDAO.save(projeto);
-                        pDAO.commit();
-                        departamento.getProjetos().add(projeto);
+                        Funcionario funcionario = new Funcionario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento);
+                        fDAO.save(funcionario);
+                        fDAO.commit();
+                        departamento.getFuncionarios().add(funcionario);
                         dDAO.save(departamento);
                         dDAO.commit();
                         break;
@@ -207,7 +209,7 @@ public class Principal {
                 }
             }
 
-        }catch (IllegalStateException | PersistenceException e) {
+        } catch (IllegalStateException | PersistenceException e) {
             dDAO.rollback();
             fDAO.rollback();
             e.printStackTrace();
@@ -218,8 +220,7 @@ public class Principal {
     }
 
 
-
-    private static void deletarDepartamento(){
+    private static void deletarDepartamento() {
         numDepartamento = null;
         try {
             dDAO.beginTransaction();
