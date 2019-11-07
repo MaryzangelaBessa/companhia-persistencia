@@ -36,7 +36,8 @@ public class Principal {
             System.out.println("4 - Listar Funcionários"); //ok
             System.out.println("5 - Cadastrar Projetos"); //ok
             System.out.println("6 - Cadastrar Funcionários"); //Todo: gOoodinho
-            System.out.println("7 - Deletar Departamento"); //ok
+            System.out.println("7 - Cadastrar Dependentes");
+            System.out.println("8 - Deletar Departamento"); //ok
             System.out.println("0 - Sair"); //ok
             System.out.println("---------------------------");
             System.out.println(">>> ");
@@ -217,7 +218,15 @@ public class Principal {
         }
     }
 
+    private static void cadastrarDependentes(){
+        Long idFuncionario = null;
+        String nomeFuncionario = null;
+        String sexoFuncionario = null;
+        Calendar dataNascFuncionario = null;
 
+
+
+    }
 
     private static void deletarDepartamento(){
         numDepartamento = null;
