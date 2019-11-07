@@ -74,6 +74,10 @@ public class Principal {
                     break;
                 case 7:
                     scanner.nextLine();
+                    cadastrarDependentes();
+                    break;
+                case 8:
+                    scanner.nextLine();
                     deletarDepartamento();
                     break;
                 case 0:
