@@ -1,15 +1,6 @@
-import daos.DepartamentoDAO;
-import daos.DependenteDAO;
-import daos.FuncionarioDAO;
-import daos.ProjetoDAO;
-import daos.jpa.DepartamentoJPADAO;
-import daos.jpa.DependenteJPADAO;
-import daos.jpa.FuncionarioJPADAO;
-import daos.jpa.ProjetoJPADAO;
-import models.Departamento;
-import models.Dependente;
-import models.Funcionario;
-import models.Projeto;
+import daos.*;
+import daos.jpa.*;
+import models.*;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -23,6 +14,10 @@ public class Principal {
     private static ProjetoDAO pDAO = new ProjetoJPADAO();
     private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
     private static DependenteDAO depDAO = new DependenteJPADAO();
+    private static PesquisadorDAO pesqDAO = new PesquisadorJPADAO();
+    private static SecretarioDAO secDAO = new SecretarioJPADAO();
+    private static AuxLimpezaDAO auxDAO = new AuxLimpezaJPADAO();
+
 
     private static Long numDepartamento = null;
 
@@ -192,16 +187,23 @@ public class Principal {
 
     public static void cadastrarFuncionarios() {
         numDepartamento = null;
+        int tipoFuncionario = 0;
         String nomeFuncionario = null;
         String endFuncionario = null;
         String sexoFuncionario = null;
         String dataNascFuncionario = null;
         Double salario = null;
+        String areaAtuacao = null;
+        String grauEscoladidade = null;
+        String cargo = null;
+        int horasJornadaTrabalho = 0;
 
         listarDepartamentos();
 
         try {
             dDAO.beginTransaction();
+
+            List<Departamento> departamentos = dDAO.findAll();
 
             System.out.println("Digite o número do departamento que o funcionário pertencerá: ");
             numDepartamento = Long.parseLong(scanner.nextLine());
@@ -216,20 +218,81 @@ public class Principal {
             System.out.println("Digite o salário do funcionário que será cadastrado: ");
             salario = Double.parseDouble(scanner.nextLine());
 
-            List<Departamento> departamentos = dDAO.findAll();
+            System.out.println("Escolha um tipo de funcionário:");
+            System.out.println("1 - Pesquisador");
+            System.out.println("2 - Secretário");
+            System.out.println("3 - Auxiliar de limpeza");
+            tipoFuncionario = Integer.parseInt(scanner.nextLine());
 
-            if (numDepartamento != null) {
-                for (Departamento departamento : departamentos) {
-                    if (departamento.getNumero().equals(numDepartamento)) {
-                        Funcionario funcionario = new Funcionario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento);
-                        fDAO.save(funcionario);
-                        fDAO.commit();
-                        departamento.getFuncionarios().add(funcionario);
-                        dDAO.save(departamento);
-                        dDAO.commit();
-                        break;
+            switch (tipoFuncionario){
+                case 1:
+                    System.out.println("Digite a área de atuação que o pesquisador trabalhará: ");
+                    areaAtuacao = scanner.nextLine();
+
+                    if (numDepartamento != null) {
+                        for (Departamento departamento : departamentos) {
+                            if (departamento.getNumero().equals(numDepartamento)) {
+                                Pesquisador pesquisador = new Pesquisador(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, areaAtuacao);
+                                fDAO.save(pesquisador);
+                                fDAO.commit();
+                                pesqDAO.save(pesquisador);
+                                pesqDAO.commit();
+                                departamento.getFuncionarios().add(pesquisador);
+                                dDAO.save(departamento);
+                                dDAO.commit();
+                                break;
+                            }
+                        }
                     }
-                }
+
+                    break;
+                case 2:
+                    System.out.println("Digite o grau de escolaridade que o secretário tem: ");
+                    grauEscoladidade = scanner.nextLine();
+
+                    if (numDepartamento != null) {
+                        for (Departamento departamento : departamentos) {
+                            if (departamento.getNumero().equals(numDepartamento)) {
+                                Secretario secretario = new Secretario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, grauEscoladidade);
+                                fDAO.save(secretario);
+                                fDAO.commit();
+                                secDAO.save(secretario);
+                                secDAO.commit();
+                                departamento.getFuncionarios().add(secretario);
+                                dDAO.save(departamento);
+                                dDAO.commit();
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                case 3:
+                    System.out.println("Digite o cargo que o auxiliar de limpeza ocupará: ");
+                    cargo = scanner.nextLine();
+                    System.out.println("Digite as horasa de jornada de trabalho que o auxiliar de limpeza terá: ");
+                    horasJornadaTrabalho = Integer.parseInt(scanner.nextLine());
+
+                    if (numDepartamento != null) {
+                        for (Departamento departamento : departamentos) {
+                            if (departamento.getNumero().equals(numDepartamento)) {
+                                AuxLimpeza auxLimpeza = new AuxLimpeza(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, cargo, horasJornadaTrabalho);
+                                fDAO.save(auxLimpeza);
+                                fDAO.commit();
+                                auxDAO.save(auxLimpeza);
+                                auxDAO.commit();
+                                departamento.getFuncionarios().add(auxLimpeza);
+                                dDAO.save(departamento);
+                                dDAO.commit();
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                default:
+                    System.out.println("Tipo Inválido!");
+                    break;
             }
 
         } catch (IllegalStateException | PersistenceException e) {
