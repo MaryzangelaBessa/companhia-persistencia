@@ -26,6 +26,7 @@ public class MenuFuncionarios {
             System.out.println("8 - Ver Dependentes de um Funcionário");
             System.out.println("0 - Voltar");
             System.out.println("-----------------------");
+            System.out.println(">>> ");
 
             int menu = scanner.nextInt();
 
@@ -35,42 +36,52 @@ public class MenuFuncionarios {
                     od.listarDepartamentos();
                     of.cadastrarFuncionario();
                     break;
+
                 case 2:
                     scanner.nextLine();
                     of.listarFuncionarios();
                     break;
+
                 case 3:
                     scanner.nextLine();
                     of.listarPesquisadores();
                     break;
+
                 case 4:
                     scanner.nextLine();
                     of.listarSecretarios();
                     break;
+
                 case 5:
                     scanner.nextLine();
                     of.listarAuxiliaresLimpeza();
                     break;
+
                 case 6:
                     scanner.nextLine();
                     of.listarFuncionarios();
                     of.deletarFuncionario();
                     break;
+
+                // Todo: Implementar: Ver Projetos de um Pesquisador
                 case 7:
                     scanner.nextLine();
                     System.out.println("Ver Projetos de um Pesquisador");
                     break;
+
+                // Todo: Implementar: Ver Dependentes de um Funcionário
                 case 8:
                     scanner.nextLine();
                     System.out.println("Ver Dependentes de um Funcionário");
                     break;
+
                 case 0:
                     return;
+
                 default:
                     System.out.println("Escolha Invalida!");
                     break;
             }
         }
-
     }
 }

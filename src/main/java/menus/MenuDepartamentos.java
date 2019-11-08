@@ -1,27 +1,25 @@
 package menus;
 
 import actions.OptionsDepartamento;
-import actions.OptionsFuncionarios;
-import actions.OptionsProjetos;
 
 import java.util.Scanner;
 
-public class MenuProjetos {
+public class MenuDepartamentos {
+
     private static Scanner scanner;
 
     OptionsDepartamento od = new OptionsDepartamento();
-    OptionsProjetos op = new OptionsProjetos();
 
-    public void menuProjetos(){
+    public void menuDepartamentos(){
         scanner = new Scanner(System.in);
 
         while (true){
-            System.out.println("\n-----MENU PROJETOS-----");
-            System.out.println("1 - Cadastrar Projeto");
-            System.out.println("2 - Listar Projetos");
-            System.out.println("3 - Deletar Projeto");
+            System.out.println("\n-----MENU DEPARTAMENTOS-----");
+            System.out.println("1 - Cadastrar Departamento");
+            System.out.println("2 - Listar Departamentos");
+            System.out.println("3 - Deletar Departamento");
             System.out.println("0 - Voltar");
-            System.out.println("-----------------------");
+            System.out.println("----------------------------");
             System.out.println(">>> ");
 
             int menu = scanner.nextInt();
@@ -29,19 +27,18 @@ public class MenuProjetos {
             switch (menu){
                 case 1:
                     scanner.nextLine();
-                    od.listarDepartamentos();
-                    op.cadastrarProjeto();
+                    od.cadastrarDepartamento();
                     break;
 
                 case 2:
                     scanner.nextLine();
-                    op.listarProjetos();
+                    od.listarDepartamentos();
                     break;
 
                 case 3:
                     scanner.nextLine();
-                    op.listarProjetos();
-                    op.deletarProjeto();
+                    od.listarDepartamentos();
+                    od.deletarDepartamento();
                     break;
 
                 case 0:

@@ -21,6 +21,7 @@ public class MenuDependentes {
             System.out.println("3 - Deletar Dependente");
             System.out.println("0 - Voltar");
             System.out.println("-----------------------");
+            System.out.println(">>> ");
 
             int menu = scanner.nextInt();
 

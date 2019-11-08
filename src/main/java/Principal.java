@@ -1,5 +1,4 @@
-import actions.OptionsDepartamento;
-import actions.OptionsProjetos;
+import menus.MenuDepartamentos;
 import menus.MenuDependentes;
 import menus.MenuFuncionarios;
 import menus.MenuProjetos;
@@ -10,12 +9,10 @@ public class Principal {
 
     private static Scanner scanner;
 
-
-    private static OptionsDepartamento od = new OptionsDepartamento();
-
+    private static MenuDepartamentos md = new MenuDepartamentos();
+    private static MenuProjetos mp = new MenuProjetos();
     private static MenuFuncionarios mf = new MenuFuncionarios();
     private static MenuDependentes mdep = new MenuDependentes();
-    private static MenuProjetos mp = new MenuProjetos();
 
     public static void main(String[] args) {
 
@@ -24,12 +21,10 @@ public class Principal {
         while (true) {
             System.out.println("\n----------MENU----------");
             System.out.println("Escolha uma opção:");
-            System.out.println("1 - Cadastrar Departamento");
-            System.out.println("2 - Listar Departamentos");
-            System.out.println("3 - Deletar Departamento");
-            System.out.println("4 - Menu Projetos");
-            System.out.println("5 - Menu Funcionários");
-            System.out.println("6 - Menu Dependentes");
+            System.out.println("1 - Menu Departamentos");
+            System.out.println("2 - Menu Projetos");
+            System.out.println("3 - Menu Funcionários");
+            System.out.println("4 - Menu Dependentes");
             System.out.println("0 - Sair");
             System.out.println("---------------------------");
             System.out.println(">>> ");
@@ -39,30 +34,19 @@ public class Principal {
             switch (menu) {
                 case 1:
                     scanner.nextLine();
-                    od.cadastrarDepartamento();
+                    md.menuDepartamentos();
                     break;
 
                 case 2:
                     scanner.nextLine();
-                    od.listarDepartamentos();
+                    mp.menuProjetos();
                     break;
 
                 case 3:
                     scanner.nextLine();
-                    od.listarDepartamentos();
-                    od.deletarDepartamento();
-                    break;
-
-                case 4:
-                    scanner.nextLine();
-                    mp.menuProjetos();
-                    break;
-
-                case 5:
-                    scanner.nextLine();
                     mf.menuFuncionarios();
                     break;
-                case 6:
+                case 4:
                     scanner.nextLine();
                     mdep.menuDependentes();
                     break;
