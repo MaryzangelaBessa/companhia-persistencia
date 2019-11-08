@@ -6,5 +6,11 @@ public interface OptionsFuncionariosI {
 
     void listarFuncionarios();
 
+    void listarPesquisadores();
+
+    void listarSecretarios();
+
+    void listarAuxiliaresLimpeza();
+
     void deletarFuncionario();
 }

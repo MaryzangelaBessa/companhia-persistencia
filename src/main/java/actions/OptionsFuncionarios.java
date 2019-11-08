@@ -146,6 +146,36 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
     }
 
     @Override
+    public void listarPesquisadores() {
+        List<Pesquisador> pesquisadores = pesqDAO.findAll();
+        pesqDAO.close();
+        System.out.println("\n\n" + "Lista de Pesquisadores");
+        for (Pesquisador pesquisador : pesquisadores) {
+            System.out.println(pesquisador);
+        }
+    }
+
+    @Override
+    public void listarSecretarios() {
+        List<Secretario> secretarios = secDAO.findAll();
+        secDAO.close();
+        System.out.println("\n\n" + "Lista de Secretários");
+        for (Secretario secretario : secretarios) {
+            System.out.println(secretario);
+        }
+    }
+
+    @Override
+    public void listarAuxiliaresLimpeza() {
+        List<AuxLimpeza> auxiliaresLimpeza = auxDAO.findAll();
+        auxDAO.close();
+        System.out.println("\n\n" + "Lista de Auxiliares de Limpeza");
+        for (AuxLimpeza auxLimpeza : auxiliaresLimpeza) {
+            System.out.println(auxLimpeza);
+        }
+    }
+
+    @Override
     public void deletarFuncionario() {
         Long idFuncionario;
 
