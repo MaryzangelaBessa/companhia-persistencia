@@ -5,7 +5,7 @@ import actions.OptionsFuncionarios;
 
 import java.util.Scanner;
 
-public class MenuFuncionários {
+public class MenuFuncionarios {
     private static Scanner scanner;
 
     OptionsDepartamento od = new OptionsDepartamento();
@@ -25,7 +25,7 @@ public class MenuFuncionários {
             System.out.println("7 - Ver Projetos de um Pesquisador");
             System.out.println("8 - Ver Dependentes de um Funcionário");
             System.out.println("0 - Voltar");
-            System.out.println("\n-----------------------");
+            System.out.println("-----------------------");
 
             int menu = scanner.nextInt();
 

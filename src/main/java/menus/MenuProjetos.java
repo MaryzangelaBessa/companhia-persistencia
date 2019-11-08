@@ -1,24 +1,25 @@
 package menus;
 
-import actions.OptionsDependentes;
+import actions.OptionsDepartamento;
 import actions.OptionsFuncionarios;
+import actions.OptionsProjetos;
 
 import java.util.Scanner;
 
-public class MenuDependentes {
+public class MenuProjetos {
     private static Scanner scanner;
 
-    OptionsDependentes odep = new OptionsDependentes();
-    OptionsFuncionarios of = new OptionsFuncionarios();
+    OptionsDepartamento od = new OptionsDepartamento();
+    OptionsProjetos op = new OptionsProjetos();
 
-    public void menuDependentes(){
+    public void menuProjetos(){
         scanner = new Scanner(System.in);
 
         while (true){
-            System.out.println("\n---MENU DEPENDENTES----");
-            System.out.println("1 - Cadastrar Dependente");
-            System.out.println("2 - Listar Dependentes");
-            System.out.println("3 - Deletar Dependente");
+            System.out.println("\n-----MENU PROJETOS-----");
+            System.out.println("1 - Cadastrar Projeto");
+            System.out.println("2 - Listar Projetos");
+            System.out.println("3 - Deletar Projeto");
             System.out.println("0 - Voltar");
             System.out.println("-----------------------");
 
@@ -27,19 +28,19 @@ public class MenuDependentes {
             switch (menu){
                 case 1:
                     scanner.nextLine();
-                    of.listarFuncionarios();
-                    odep.cadastrarDependente();
+                    od.listarDepartamentos();
+                    op.cadastrarProjeto();
                     break;
 
                 case 2:
                     scanner.nextLine();
-                    odep.listarDependentes();
+                    op.listarProjetos();
                     break;
 
                 case 3:
                     scanner.nextLine();
-                    odep.listarDependentes();
-                    odep.deletarDependente();
+                    op.listarProjetos();
+                    op.deletarProjeto();
                     break;
 
                 case 0:
