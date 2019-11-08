@@ -2,24 +2,21 @@ import actions.OptionsDepartamento;
 import actions.OptionsDependentes;
 import actions.OptionsFuncionarios;
 import actions.OptionsProjetos;
-import daos.*;
-import daos.jpa.*;
+import menus.MenuDependentes;
+import menus.MenuFuncionários;
+
 import java.util.Scanner;
 
 public class Principal {
 
     private static Scanner scanner;
 
-    private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
-    private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
-    private static DependenteDAO depDAO = new DependenteJPADAO();
 
     private static OptionsDepartamento od = new OptionsDepartamento();
     private static OptionsProjetos op = new OptionsProjetos();
-    private static OptionsFuncionarios of = new OptionsFuncionarios();
-    private static OptionsDependentes odep = new OptionsDependentes();
 
-    private static Long numDepartamento = null;
+    private static MenuFuncionários mf = new MenuFuncionários();
+    private static MenuDependentes mdep = new MenuDependentes();
 
     public static void main(String[] args) {
 
@@ -34,12 +31,8 @@ public class Principal {
             System.out.println("4 - Cadastrar Projeto");
             System.out.println("5 - Listar Projetos");
             System.out.println("6 - Deletar Projeto");
-            System.out.println("7 - Cadastrar Funcionário");
-            System.out.println("8 - Listar Funcionários");
-            System.out.println("9 - Deletar Funcionário");
-            System.out.println("10 - Cadastrar Dependente");
-            System.out.println("11 - Listar Dependentes");
-            System.out.println("12 - Deletar Dependente");
+            System.out.println("7 - Menu Funcionários");
+            System.out.println("8 - Menu Dependentes");
             System.out.println("0 - Sair");
             System.out.println("---------------------------");
             System.out.println(">>> ");
@@ -82,35 +75,11 @@ public class Principal {
 
                 case 7:
                     scanner.nextLine();
-                    od.listarDepartamentos();
-                    of.cadastrarFuncionario();
+                    mf.menuFuncionarios();
                     break;
                 case 8:
                     scanner.nextLine();
-                    of.listarFuncionarios();
-                    break;
-
-                case 9:
-                    scanner.nextLine();
-                    of.listarFuncionarios();
-                    of.deletarFuncionario();
-                    break;
-
-                case 10:
-                    scanner.nextLine();
-                    of.listarFuncionarios();
-                    odep.cadastrarDependente();
-                    break;
-
-                case 11:
-                    scanner.nextLine();
-                    odep.listarDependentes();
-                    break;
-
-                case 12:
-                    scanner.nextLine();
-                    odep.listarDependentes();
-                    odep.deletarDependente();
+                    mdep.menuDependentes();
                     break;
 
                 case 0:

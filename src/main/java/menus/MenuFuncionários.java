@@ -53,6 +53,7 @@ public class MenuFuncionários {
                     break;
                 case 6:
                     scanner.nextLine();
+                    of.listarFuncionarios();
                     of.deletarFuncionario();
                     break;
                 case 7:

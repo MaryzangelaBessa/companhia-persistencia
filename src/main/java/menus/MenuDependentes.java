@@ -38,6 +38,7 @@ public class MenuDependentes {
 
                 case 3:
                     scanner.nextLine();
+                    odep.listarDependentes();
                     odep.deletarDependente();
                     break;
 
