@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper = true)
+//@ToString(callSuper = true)
 @Table(name = "auxiliar_limpeza")
 public class AuxLimpeza extends Funcionario {
 
@@ -40,4 +40,15 @@ public class AuxLimpeza extends Funcionario {
         this.auxLimpezaGerenciados = new ArrayList<AuxLimpeza>();
     }
 
+    @Override
+    public String toString() {
+        return ">  (" + this.getId() +
+                ") " + this.getNome() +
+                "\n       Endereço: " + this.getEndereco() +
+                "\n       Sexo: " + this.getSexo() +
+                "\n       Data de Nascimento: " + this.getDataNascimento() +
+                "\n       Salário: " + this.getSalario() +
+                "\n       Cargo: " + cargo +
+                "\n       Jornada de trabalho de " + horasJornadaTrabalho + " horas";
+    }
 }

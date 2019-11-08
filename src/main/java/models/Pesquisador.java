@@ -8,6 +8,7 @@ import models.Departamento;
 import models.Dependente;
 import models.Funcionario;
 import models.Projeto;
+import net.bytebuddy.implementation.bind.annotation.Super;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper = true)
+//@ToString(callSuper = true)
 @Table(name = "pesquisador")
 public class Pesquisador extends Funcionario {
 
@@ -37,5 +38,16 @@ public class Pesquisador extends Funcionario {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.areaAtuacao = areaAtuacao;
         this.projetos = new ArrayList<Projeto>();
+    }
+
+    @Override
+    public String toString() {
+        return ">  (" + this.getId() +
+                ") " + this.getNome() +
+                "\n       Endereço: " + this.getEndereco() +
+                "\n       Sexo: " + this.getSexo() +
+                "\n       Data de Nascimento: " + this.getDataNascimento() +
+                "\n       Salário: " + this.getSalario() +
+                "\n       Área de Atuação: " + areaAtuacao;
     }
 }
