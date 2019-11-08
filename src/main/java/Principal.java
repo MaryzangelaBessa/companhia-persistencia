@@ -1,4 +1,5 @@
 import actions.OptionsDepartamento;
+import actions.OptionsProjetos;
 import daos.*;
 import daos.jpa.*;
 import models.*;
@@ -20,6 +21,7 @@ public class Principal {
     private static AuxLimpezaDAO auxDAO = new AuxLimpezaJPADAO();
 
     private static OptionsDepartamento od = new OptionsDepartamento();
+    private static OptionsProjetos op = new OptionsProjetos();
 
     private static Long numDepartamento = null;
 
@@ -30,16 +32,19 @@ public class Principal {
         while (true) {
             System.out.println("\n----------MENU----------");
             System.out.println("Escolha uma opção:");
-            System.out.println("1 - Inserir Departamento"); //ok
-            System.out.println("2 - Listar Departamentos"); //ok
-            System.out.println("3 - Listar Projetos"); //ok
-            System.out.println("4 - Listar Funcionários"); //ok
-            System.out.println("5 - Listar Dependentes");
-            System.out.println("6 - Cadastrar Projetos"); //ok
-            System.out.println("7 - Cadastrar Funcionários"); // ok ;)
-            System.out.println("8 - Cadastrar Dependentes"); //ok
-            System.out.println("9 - Deletar Departamento"); //ok
-            System.out.println("0 - Sair"); //ok
+            System.out.println("1 - Cadastrar Departamento");
+            System.out.println("2 - Listar Departamentos");
+            System.out.println("3 - Deletar Departamento");
+            System.out.println("4 - Cadastrar Projeto");
+            System.out.println("5 - Listar Projetos");
+            System.out.println("6 - Deletar Projeto");
+            System.out.println("7 - Cadastrar Funcionário");
+            System.out.println("8 - Listar Funcionários");
+            System.out.println("9 - Deletar Funcionário");
+            System.out.println("10 - Cadastrar Dependente");
+            System.out.println("11 - Listar Dependentes");
+            System.out.println("12 - Deletar Dependente");
+            System.out.println("0 - Sair");
             System.out.println("---------------------------");
             System.out.println(">>> ");
 
@@ -48,56 +53,78 @@ public class Principal {
             switch (menu) {
                 case 1:
                     scanner.nextLine();
-                    od.inserirDepartamento();
+                    od.cadastrarDepartamento();
                     break;
+
                 case 2:
                     scanner.nextLine();
                     od.listarDepartamentos();
                     break;
+
                 case 3:
-                    listarProjetos();
                     scanner.nextLine();
+                    od.listarDepartamentos();
+                    od.deletarDepartamento();
                     break;
+
                 case 4:
                     scanner.nextLine();
-                    listarFuncionarios();
+                    od.listarDepartamentos();
+                    op.cadastrarProjeto();
                     break;
+
                 case 5:
                     scanner.nextLine();
-                    listarDependentes();
+                    op.listarProjetos();
                     break;
+
                 case 6:
                     scanner.nextLine();
-                    //cadastrarProjetos();
+                    op.listarProjetos();
+                    op.deletarProjeto();
                     break;
+
                 case 7:
                     scanner.nextLine();
-                    //cadastrarFuncionarios();
+                    od.listarDepartamentos();
+                    //of.cadastrarFuncionario();
                     break;
                 case 8:
                     scanner.nextLine();
-                    cadastrarDependentes();
+                    listarFuncionarios();
                     break;
+
                 case 9:
                     scanner.nextLine();
-                    deletarDepartamento();
+                    //of.listarFuncionarios();
+                    //of.deletarFuncionario();
                     break;
+
+                case 10:
+                    scanner.nextLine();
+                    //of.listarFuncionarios();
+                    //odep.cadastrarDependente();
+                    break;
+
+                case 11:
+                    scanner.nextLine();
+                    //odep.listarDependentes();
+                    break;
+
+                case 12:
+                    scanner.nextLine();
+                    //odep.listarDependentes();
+                    //odep.deletarDependente();
+                    break;
+
                 case 0:
                     System.out.println("GoodBye!");
                     return;
+
                 default:
                     System.out.println("Escolha Invalida!");
                     break;
             }
-        }
-    }
-
-    private static void listarProjetos() {
-        List<Projeto> projetos = pDAO.findAll();
-        pDAO.close();
-        System.out.println("\n\n" + "Lista de Projetos");
-        for (Projeto projeto : projetos) {
-            System.out.println(projeto);
         }
     }
 
@@ -119,49 +146,6 @@ public class Principal {
         }
     }
 
-//    private static void cadastrarProjetos() {
-//        numDepartamento = null;
-//        String nomeProjeto = null;
-//        int horasDuracao;
-//
-//        listarDepartamentos();
-//
-//        try {
-//            dDAO.beginTransaction();
-//
-//            System.out.println("Digite o número do departamento que o projeto pertencerá: ");
-//            numDepartamento = Long.parseLong(scanner.nextLine());
-//            System.out.println("Digite o nome do projeto que será cadastrado: ");
-//            nomeProjeto = scanner.nextLine();
-//            System.out.println("Digite a duração (em horas inteiras) do projeto que será cadastrado: ");
-//            horasDuracao = Integer.parseInt(scanner.nextLine());
-//
-//            List<Departamento> departamentos = dDAO.findAll();
-//
-//            if (numDepartamento != null) {
-//                for (Departamento departamento : departamentos) {
-//                    if (departamento.getNumero().equals(numDepartamento)) {
-//                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
-//                        pDAO.save(projeto);
-//                        pDAO.commit();
-//                        departamento.getProjetos().add(projeto);
-//                        dDAO.save(departamento);
-//                        dDAO.commit();
-//                        break;
-//                    }
-//                }
-//            }
-//
-//        } catch (IllegalStateException | PersistenceException e) {
-//            dDAO.rollback();
-//            pDAO.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            dDAO.close();
-//            pDAO.close();
-//        }
-//    }
-//
 //    public static void cadastrarFuncionarios() {
 //        numDepartamento = null;
 //        int tipoFuncionario = 0;
@@ -328,30 +312,6 @@ public class Principal {
         } finally {
             depDAO.close();
             fDAO.close();
-        }
-    }
-
-    // Todo: ajeitar o close() e colocar na actions
-    private static void deletarDepartamento() {
-        numDepartamento = null;
-        try {
-            dDAO.beginTransaction();
-            System.out.println("Digite o número do departamento a ser excluído: ");
-            numDepartamento = Long.parseLong(scanner.nextLine());
-            List<Departamento> departamentos = dDAO.findAll();
-            if (numDepartamento != null) {
-                for (Departamento departamento : departamentos) {
-                    if (departamento.getNumero().equals(numDepartamento)) {
-                        dDAO.delete(departamento);
-                    }
-                }
-            }
-            dDAO.commit();
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            e.printStackTrace();
-        } finally {
-            dDAO.close();
         }
     }
 }

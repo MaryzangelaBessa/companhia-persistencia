@@ -1,5 +1,7 @@
 package actions;
 
+import actions.contracts.OptionsDepartamentoI;
+import actions.contracts.OptionsProjetosI;
 import daos.DepartamentoDAO;
 import daos.jpa.DepartamentoJPADAO;
 import models.Departamento;
@@ -8,14 +10,13 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
-public class OptionsDepartamento implements actions.contracts.OptionsDepartamento {
+public class OptionsDepartamento implements OptionsDepartamentoI {
 
     private static Scanner scanner = new Scanner(System.in);
     private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
-    private static Long numDepartamento = null;
 
     @Override
-    public void inserirDepartamento() {
+    public void cadastrarDepartamento() {
         String nomeDepartamento = null;
         try {
             dDAO.beginTransaction();
@@ -41,8 +42,27 @@ public class OptionsDepartamento implements actions.contracts.OptionsDepartament
         }
     }
 
+    // Todo: ajeitar o commit
     @Override
     public void deletarDepartamento() {
-
+        Long numDepartamento = null;
+        try {
+            dDAO.beginTransaction();
+            System.out.println("Digite o número do departamento a ser excluído: ");
+            numDepartamento = Long.parseLong(scanner.nextLine());
+            List<Departamento> departamentos = dDAO.findAll();
+            for (Departamento departamento : departamentos) {
+                if (departamento.getNumero().equals(numDepartamento)) {
+                    dDAO.delete(departamento);
+                    dDAO.commit();
+                    break;
+                }
+            }
+        } catch (IllegalStateException | PersistenceException e) {
+            dDAO.rollback();
+            e.printStackTrace();
+        } finally {
+            dDAO.close();
+        }
     }
 }

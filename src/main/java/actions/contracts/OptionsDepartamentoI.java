@@ -2,9 +2,9 @@ package actions.contracts;
 
 import daos.DepartamentoDAO;
 
-public interface OptionsDepartamento {
+public interface OptionsDepartamentoI {
 
-    void inserirDepartamento();
+    void cadastrarDepartamento();
 
     void listarDepartamentos();
 

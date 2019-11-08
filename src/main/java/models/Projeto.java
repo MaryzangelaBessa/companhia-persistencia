@@ -18,7 +18,7 @@ public class Projeto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero")
-    private int numero;
+    private Long numero;
 
     @Column(name = "nome")
     private String nome;
