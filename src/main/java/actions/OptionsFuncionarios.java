@@ -9,8 +9,6 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.sun.xml.internal.ws.client.ContentNegotiation.none;
-
 public class OptionsFuncionarios implements OptionsFuncionariosI {
     private static Scanner scanner = new Scanner(System.in);
 

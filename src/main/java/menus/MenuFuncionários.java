@@ -36,7 +36,7 @@ public class MenuFuncionários {
                     of.cadastrarFuncionario();
                     break;
                 case 2:
-                    //scanner.nextLine();
+                    scanner.nextLine();
                     of.listarFuncionarios();
                     break;
                 case 3:

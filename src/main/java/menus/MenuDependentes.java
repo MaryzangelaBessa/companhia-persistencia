@@ -1,9 +1,15 @@
 package menus;
 
+import actions.OptionsDependentes;
+import actions.OptionsFuncionarios;
+
 import java.util.Scanner;
 
 public class MenuDependentes {
     private static Scanner scanner;
+
+    OptionsDependentes odep = new OptionsDependentes();
+    OptionsFuncionarios of = new OptionsFuncionarios();
 
     public void menuDependentes(){
         scanner = new Scanner(System.in);
@@ -21,18 +27,23 @@ public class MenuDependentes {
             switch (menu){
                 case 1:
                     scanner.nextLine();
-                    System.out.println("Cadastrar Dependente");
+                    of.listarFuncionarios();
+                    odep.cadastrarDependente();
                     break;
+
                 case 2:
                     scanner.nextLine();
-                    System.out.println("Listar Dependentes");
+                    odep.listarDependentes();
                     break;
+
                 case 3:
                     scanner.nextLine();
-                    System.out.println("Deletar Dependente");
+                    odep.deletarDependente();
                     break;
+
                 case 0:
                     return;
+
                 default:
                     System.out.println("Escolha Invalida!");
                     break;

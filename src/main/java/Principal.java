@@ -1,12 +1,9 @@
 import actions.OptionsDepartamento;
+import actions.OptionsDependentes;
 import actions.OptionsFuncionarios;
 import actions.OptionsProjetos;
 import daos.*;
 import daos.jpa.*;
-import models.*;
-
-import javax.persistence.PersistenceException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -20,6 +17,7 @@ public class Principal {
     private static OptionsDepartamento od = new OptionsDepartamento();
     private static OptionsProjetos op = new OptionsProjetos();
     private static OptionsFuncionarios of = new OptionsFuncionarios();
+    private static OptionsDependentes odep = new OptionsDependentes();
 
     private static Long numDepartamento = null;
 
@@ -101,18 +99,18 @@ public class Principal {
                 case 10:
                     scanner.nextLine();
                     of.listarFuncionarios();
-                    //odep.cadastrarDependente();
+                    odep.cadastrarDependente();
                     break;
 
                 case 11:
                     scanner.nextLine();
-                    //odep.listarDependentes();
+                    odep.listarDependentes();
                     break;
 
                 case 12:
                     scanner.nextLine();
-                    //odep.listarDependentes();
-                    //odep.deletarDependente();
+                    odep.listarDependentes();
+                    odep.deletarDependente();
                     break;
 
                 case 0:
@@ -123,63 +121,6 @@ public class Principal {
                     System.out.println("Escolha Invalida!");
                     break;
             }
-        }
-    }
-
-    private static void listarDependentes() {
-        List<Dependente> dependentes = depDAO.findAll();
-        depDAO.close();
-        System.out.println("\n\n" + "Lista de Dependentes");
-        for (Dependente dependente : dependentes) {
-            System.out.println(dependente);
-        }
-    }
-
-
-    private static void cadastrarDependentes(){
-        Long idFuncionario = null;
-        String nomeDependente = null;
-        String sexoDependente = null;
-        String dataNascDependente = null;
-
-        List<Funcionario> funcionarios = fDAO.findAll();
-        fDAO.close();
-        System.out.println("\n\n" + "Lista de Funcionário");
-        for (Funcionario funcionario : funcionarios) {
-            System.out.println(funcionario);
-        }
-
-        try {
-            dDAO.beginTransaction();
-
-            System.out.println("Digite o id do funcionário que o dependente pertencerá: ");
-            idFuncionario = Long.parseLong(scanner.nextLine());
-            System.out.println("Digite o nome do dependente que será cadastrado: ");
-            nomeDependente = scanner.nextLine();
-            System.out.println("Digite o sexo do dependente que será cadastrado: ");
-            sexoDependente = scanner.nextLine();
-            System.out.println("Digite a data de nascimento do dependente que será cadastrado: ");
-            dataNascDependente = scanner.nextLine();
-
-            for (Funcionario funcionario : funcionarios) {
-                if (funcionario.getId().equals(idFuncionario)) {
-                    Dependente dependente = new Dependente(nomeDependente, sexoDependente, dataNascDependente, funcionario);
-                    depDAO.save(dependente);
-                    depDAO.commit();
-                    funcionario.getDependentes().add(dependente);
-                    fDAO.save(funcionario);
-                    fDAO.commit();
-                    break;
-                }
-            }
-
-        } catch (IllegalStateException | PersistenceException e) {
-            depDAO.rollback();
-            fDAO.rollback();
-            e.printStackTrace();
-        } finally {
-            depDAO.close();
-            fDAO.close();
         }
     }
 }
