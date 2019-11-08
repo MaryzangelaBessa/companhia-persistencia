@@ -1,3 +1,4 @@
+import actions.OptionsDepartamento;
 import daos.*;
 import daos.jpa.*;
 import models.*;
@@ -18,6 +19,7 @@ public class Principal {
     private static SecretarioDAO secDAO = new SecretarioJPADAO();
     private static AuxLimpezaDAO auxDAO = new AuxLimpezaJPADAO();
 
+    private static OptionsDepartamento od = new OptionsDepartamento();
 
     private static Long numDepartamento = null;
 
@@ -46,11 +48,11 @@ public class Principal {
             switch (menu) {
                 case 1:
                     scanner.nextLine();
-                    inserirDepartamento();
+                    od.inserirDepartamento();
                     break;
                 case 2:
                     scanner.nextLine();
-                    listarDepartamentos();
+                    od.listarDepartamentos();
                     break;
                 case 3:
                     listarProjetos();
@@ -66,11 +68,11 @@ public class Principal {
                     break;
                 case 6:
                     scanner.nextLine();
-                    cadastrarProjetos();
+                    //cadastrarProjetos();
                     break;
                 case 7:
                     scanner.nextLine();
-                    cadastrarFuncionarios();
+                    //cadastrarFuncionarios();
                     break;
                 case 8:
                     scanner.nextLine();
@@ -87,31 +89,6 @@ public class Principal {
                     System.out.println("Escolha Invalida!");
                     break;
             }
-        }
-    }
-
-    private static void inserirDepartamento() {
-        String nomeDepartamento = null;
-        try {
-            dDAO.beginTransaction();
-            System.out.println("Digite o nome do departamento a ser cadastrado: ");
-            nomeDepartamento = scanner.nextLine();
-            dDAO.save(new Departamento(nomeDepartamento));
-            dDAO.commit();
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            e.printStackTrace();
-        } finally {
-            dDAO.close();
-        }
-    }
-
-    private static void listarDepartamentos() {
-        List<Departamento> departamentos = dDAO.findAll();
-        dDAO.close();
-        System.out.println("\n\n" + "Lista de Departamentos");
-        for (Departamento departamento : departamentos) {
-            System.out.println(departamento);
         }
     }
 
@@ -142,168 +119,168 @@ public class Principal {
         }
     }
 
-    private static void cadastrarProjetos() {
-        numDepartamento = null;
-        String nomeProjeto = null;
-        int horasDuracao;
-
-        listarDepartamentos();
-
-        try {
-            dDAO.beginTransaction();
-
-            System.out.println("Digite o número do departamento que o projeto pertencerá: ");
-            numDepartamento = Long.parseLong(scanner.nextLine());
-            System.out.println("Digite o nome do projeto que será cadastrado: ");
-            nomeProjeto = scanner.nextLine();
-            System.out.println("Digite a duração (em horas inteiras) do projeto que será cadastrado: ");
-            horasDuracao = Integer.parseInt(scanner.nextLine());
-
-            List<Departamento> departamentos = dDAO.findAll();
-
-            if (numDepartamento != null) {
-                for (Departamento departamento : departamentos) {
-                    if (departamento.getNumero().equals(numDepartamento)) {
-                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
-                        pDAO.save(projeto);
-                        pDAO.commit();
-                        departamento.getProjetos().add(projeto);
-                        dDAO.save(departamento);
-                        dDAO.commit();
-                        break;
-                    }
-                }
-            }
-
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            pDAO.rollback();
-            e.printStackTrace();
-        } finally {
-            dDAO.close();
-            pDAO.close();
-        }
-    }
-
-    public static void cadastrarFuncionarios() {
-        numDepartamento = null;
-        int tipoFuncionario = 0;
-        String nomeFuncionario = null;
-        String endFuncionario = null;
-        String sexoFuncionario = null;
-        String dataNascFuncionario = null;
-        Double salario = null;
-        String areaAtuacao = null;
-        String grauEscoladidade = null;
-        String cargo = null;
-        int horasJornadaTrabalho = 0;
-
-        listarDepartamentos();
-
-        try {
-            dDAO.beginTransaction();
-
-            List<Departamento> departamentos = dDAO.findAll();
-
-            System.out.println("Digite o número do departamento que o funcionário pertencerá: ");
-            numDepartamento = Long.parseLong(scanner.nextLine());
-            System.out.println("Digite o nome do funcionário que será cadastrado: ");
-            nomeFuncionario = scanner.nextLine();
-            System.out.println("Digite o endereço do funcionário que será cadastrado: ");
-            endFuncionario = scanner.nextLine();
-            System.out.println("Digite o sexo do funcionário que será cadastrado: ");
-            sexoFuncionario = scanner.nextLine();
-            System.out.println("Digite a data de nascimento do funcionário que será cadastrado: ");
-            dataNascFuncionario = scanner.nextLine();
-            System.out.println("Digite o salário do funcionário que será cadastrado: ");
-            salario = Double.parseDouble(scanner.nextLine());
-
-            System.out.println("Escolha um tipo de funcionário:");
-            System.out.println("1 - Pesquisador");
-            System.out.println("2 - Secretário");
-            System.out.println("3 - Auxiliar de limpeza");
-            tipoFuncionario = Integer.parseInt(scanner.nextLine());
-
-            switch (tipoFuncionario){
-                case 1:
-                    System.out.println("Digite a área de atuação que o pesquisador trabalhará: ");
-                    areaAtuacao = scanner.nextLine();
-
-                    if (numDepartamento != null) {
-                        for (Departamento departamento : departamentos) {
-                            if (departamento.getNumero().equals(numDepartamento)) {
-                                Pesquisador pesquisador = new Pesquisador(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, areaAtuacao);
-                                fDAO.save(pesquisador);
-                                fDAO.commit();
-                                pesqDAO.save(pesquisador);
-                                pesqDAO.commit();
-                                departamento.getFuncionarios().add(pesquisador);
-                                dDAO.save(departamento);
-                                dDAO.commit();
-                                break;
-                            }
-                        }
-                    }
-
-                    break;
-                case 2:
-                    System.out.println("Digite o grau de escolaridade que o secretário tem: ");
-                    grauEscoladidade = scanner.nextLine();
-
-                    if (numDepartamento != null) {
-                        for (Departamento departamento : departamentos) {
-                            if (departamento.getNumero().equals(numDepartamento)) {
-                                Secretario secretario = new Secretario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, grauEscoladidade);
-                                fDAO.save(secretario);
-                                fDAO.commit();
-                                secDAO.save(secretario);
-                                secDAO.commit();
-                                departamento.getFuncionarios().add(secretario);
-                                dDAO.save(departamento);
-                                dDAO.commit();
-                                break;
-                            }
-                        }
-                    }
-
-                    break;
-                case 3:
-                    System.out.println("Digite o cargo que o auxiliar de limpeza ocupará: ");
-                    cargo = scanner.nextLine();
-                    System.out.println("Digite as horasa de jornada de trabalho que o auxiliar de limpeza terá: ");
-                    horasJornadaTrabalho = Integer.parseInt(scanner.nextLine());
-
-                    if (numDepartamento != null) {
-                        for (Departamento departamento : departamentos) {
-                            if (departamento.getNumero().equals(numDepartamento)) {
-                                AuxLimpeza auxLimpeza = new AuxLimpeza(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, cargo, horasJornadaTrabalho);
-                                fDAO.save(auxLimpeza);
-                                fDAO.commit();
-                                auxDAO.save(auxLimpeza);
-                                auxDAO.commit();
-                                departamento.getFuncionarios().add(auxLimpeza);
-                                dDAO.save(departamento);
-                                dDAO.commit();
-                                break;
-                            }
-                        }
-                    }
-
-                    break;
-                default:
-                    System.out.println("Tipo Inválido!");
-                    break;
-            }
-
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            fDAO.rollback();
-            e.printStackTrace();
-        } finally {
-            dDAO.close();
-            fDAO.close();
-        }
-    }
+//    private static void cadastrarProjetos() {
+//        numDepartamento = null;
+//        String nomeProjeto = null;
+//        int horasDuracao;
+//
+//        listarDepartamentos();
+//
+//        try {
+//            dDAO.beginTransaction();
+//
+//            System.out.println("Digite o número do departamento que o projeto pertencerá: ");
+//            numDepartamento = Long.parseLong(scanner.nextLine());
+//            System.out.println("Digite o nome do projeto que será cadastrado: ");
+//            nomeProjeto = scanner.nextLine();
+//            System.out.println("Digite a duração (em horas inteiras) do projeto que será cadastrado: ");
+//            horasDuracao = Integer.parseInt(scanner.nextLine());
+//
+//            List<Departamento> departamentos = dDAO.findAll();
+//
+//            if (numDepartamento != null) {
+//                for (Departamento departamento : departamentos) {
+//                    if (departamento.getNumero().equals(numDepartamento)) {
+//                        Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
+//                        pDAO.save(projeto);
+//                        pDAO.commit();
+//                        departamento.getProjetos().add(projeto);
+//                        dDAO.save(departamento);
+//                        dDAO.commit();
+//                        break;
+//                    }
+//                }
+//            }
+//
+//        } catch (IllegalStateException | PersistenceException e) {
+//            dDAO.rollback();
+//            pDAO.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            dDAO.close();
+//            pDAO.close();
+//        }
+//    }
+//
+//    public static void cadastrarFuncionarios() {
+//        numDepartamento = null;
+//        int tipoFuncionario = 0;
+//        String nomeFuncionario = null;
+//        String endFuncionario = null;
+//        String sexoFuncionario = null;
+//        String dataNascFuncionario = null;
+//        Double salario = null;
+//        String areaAtuacao = null;
+//        String grauEscoladidade = null;
+//        String cargo = null;
+//        int horasJornadaTrabalho = 0;
+//
+//        listarDepartamentos();
+//
+//        try {
+//            dDAO.beginTransaction();
+//
+//            List<Departamento> departamentos = dDAO.findAll();
+//
+//            System.out.println("Digite o número do departamento que o funcionário pertencerá: ");
+//            numDepartamento = Long.parseLong(scanner.nextLine());
+//            System.out.println("Digite o nome do funcionário que será cadastrado: ");
+//            nomeFuncionario = scanner.nextLine();
+//            System.out.println("Digite o endereço do funcionário que será cadastrado: ");
+//            endFuncionario = scanner.nextLine();
+//            System.out.println("Digite o sexo do funcionário que será cadastrado: ");
+//            sexoFuncionario = scanner.nextLine();
+//            System.out.println("Digite a data de nascimento do funcionário que será cadastrado: ");
+//            dataNascFuncionario = scanner.nextLine();
+//            System.out.println("Digite o salário do funcionário que será cadastrado: ");
+//            salario = Double.parseDouble(scanner.nextLine());
+//
+//            System.out.println("Escolha um tipo de funcionário:");
+//            System.out.println("1 - Pesquisador");
+//            System.out.println("2 - Secretário");
+//            System.out.println("3 - Auxiliar de limpeza");
+//            tipoFuncionario = Integer.parseInt(scanner.nextLine());
+//
+//            switch (tipoFuncionario){
+//                case 1:
+//                    System.out.println("Digite a área de atuação que o pesquisador trabalhará: ");
+//                    areaAtuacao = scanner.nextLine();
+//
+//                    if (numDepartamento != null) {
+//                        for (Departamento departamento : departamentos) {
+//                            if (departamento.getNumero().equals(numDepartamento)) {
+//                                Pesquisador pesquisador = new Pesquisador(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, areaAtuacao);
+//                                fDAO.save(pesquisador);
+//                                fDAO.commit();
+//                                pesqDAO.save(pesquisador);
+//                                pesqDAO.commit();
+//                                departamento.getFuncionarios().add(pesquisador);
+//                                dDAO.save(departamento);
+//                                dDAO.commit();
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    break;
+//                case 2:
+//                    System.out.println("Digite o grau de escolaridade que o secretário tem: ");
+//                    grauEscoladidade = scanner.nextLine();
+//
+//                    if (numDepartamento != null) {
+//                        for (Departamento departamento : departamentos) {
+//                            if (departamento.getNumero().equals(numDepartamento)) {
+//                                Secretario secretario = new Secretario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, grauEscoladidade);
+//                                fDAO.save(secretario);
+//                                fDAO.commit();
+//                                secDAO.save(secretario);
+//                                secDAO.commit();
+//                                departamento.getFuncionarios().add(secretario);
+//                                dDAO.save(departamento);
+//                                dDAO.commit();
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    break;
+//                case 3:
+//                    System.out.println("Digite o cargo que o auxiliar de limpeza ocupará: ");
+//                    cargo = scanner.nextLine();
+//                    System.out.println("Digite as horasa de jornada de trabalho que o auxiliar de limpeza terá: ");
+//                    horasJornadaTrabalho = Integer.parseInt(scanner.nextLine());
+//
+//                    if (numDepartamento != null) {
+//                        for (Departamento departamento : departamentos) {
+//                            if (departamento.getNumero().equals(numDepartamento)) {
+//                                AuxLimpeza auxLimpeza = new AuxLimpeza(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, cargo, horasJornadaTrabalho);
+//                                fDAO.save(auxLimpeza);
+//                                fDAO.commit();
+//                                auxDAO.save(auxLimpeza);
+//                                auxDAO.commit();
+//                                departamento.getFuncionarios().add(auxLimpeza);
+//                                dDAO.save(departamento);
+//                                dDAO.commit();
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    break;
+//                default:
+//                    System.out.println("Tipo Inválido!");
+//                    break;
+//            }
+//
+//        } catch (IllegalStateException | PersistenceException e) {
+//            dDAO.rollback();
+//            fDAO.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            dDAO.close();
+//            fDAO.close();
+//        }
+//    }
 
     private static void cadastrarDependentes(){
         Long idFuncionario = null;
@@ -353,6 +330,8 @@ public class Principal {
             fDAO.close();
         }
     }
+
+    // Todo: ajeitar o close() e colocar na actions
     private static void deletarDepartamento() {
         numDepartamento = null;
         try {
