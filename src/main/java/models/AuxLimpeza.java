@@ -3,6 +3,7 @@ package models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,10 @@ public class AuxLimpeza extends Funcionario {
 
     private String cargo;
     private int horasJornadaTrabalho;
-    private AuxLimpeza auxLimpezaGerente;
+    private String auxLimpezaGerente;
     private List<AuxLimpeza> auxLimpezaGerenciados;
 
-    public AuxLimpeza(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento, String cargo, int horasJornadaTrabalho) {
+    public AuxLimpeza(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento, String cargo, int horasJornadaTrabalho) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.cargo = cargo;
         this.horasJornadaTrabalho = horasJornadaTrabalho;
