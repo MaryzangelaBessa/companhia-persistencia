@@ -1,7 +1,6 @@
 package daos.jpa;
 
 import daos.FuncionarioDAO;
-import models.Dependente;
 import models.Funcionario;
 
 import java.util.ArrayList;
@@ -16,29 +15,29 @@ public class FuncionarioRedisDAO extends GenericRedisDAO<Funcionario> implements
 
     @Override
     public void insert(Funcionario funcionario) {
-        String userKey = "funcionarios:"+funcionario.getId()+":";
-        redisClient.set(userKey+"id", String.valueOf(funcionario.getId()));
-        save(funcionario, userKey);
+        String funcKey = "funcionarios:"+funcionario.getId()+":";
+        redisClient.set(funcKey+"id", String.valueOf(funcionario.getId()));
+        save(funcionario, funcKey);
     }
 
     @Override
     public void update(Funcionario funcionario) {
         // deletar coleções para que possam ser inseridas novamente
-        String userKey = "funcionarios:"+funcionario.getId()+":";
-        redisClient.del(userKey+"endereco");
-        redisClient.del(userKey+"sexo");
-        redisClient.del(userKey+"data_nascimento");
-        redisClient.del(userKey+"salario");
-        redisClient.del(userKey+"departamento");
-        redisClient.del(userKey+"dependentes");
-        save(funcionario, userKey);
+        String funcKey = "funcionarios:"+funcionario.getId()+":";
+        redisClient.del(funcKey+"endereco");
+        redisClient.del(funcKey+"sexo");
+        redisClient.del(funcKey+"data_nascimento");
+        redisClient.del(funcKey+"salario");
+        redisClient.del(funcKey+"departamento");
+        redisClient.del(funcKey+"dependentes");
+        save(funcionario, funcKey);
     }
 
     @Override
     public Funcionario find(Object id) {
-        String userKey = "funcionarios:"+id+":";
-        if(redisClient.get(userKey+"id") == null) return null;
-        return fromRedis((int)id, userKey);
+        String funcKey = "funcionarios:"+id+":";
+        if(redisClient.get(funcKey+"id") == null) return null;
+        return fromRedis((Long) id, funcKey);
     }
 
     @Override
@@ -47,29 +46,53 @@ public class FuncionarioRedisDAO extends GenericRedisDAO<Funcionario> implements
         List<Funcionario> funcionarios = new ArrayList<Funcionario>();
         Set<String> keys = redisClient.keys("funcionarios:*:id");
         for(String key : keys) {
-            int id = Integer.parseInt(redisClient.get(key));
-            String userKey = "users:"+id+":";
-            users.add(fromRedis(id, userKey));
+            Long id = Long.parseLong(redisClient.get(key));
+            String funcKey = "users:"+id+":";
+            funcionarios.add(fromRedis(id, funcKey));
         }
-        return users;
+        return funcionarios;
     }
 
-    private void save(Funcionario funcionario, String userKey) {
+    private Funcionario fromRedis(Long id, String funcKey) {
 
-        redisClient.set(userKey+"nome", funcionario.getNome());
+        String nome = redisClient.get(funcKey+"nome");
+        String endereco = redisClient.get(funcKey+"endereco");
+        String sexo = redisClient.get(funcKey+"sexo");
+        String data_nascimento = redisClient.get(funcKey+"data_nascimento");
+        String salario = redisClient.get(funcKey+"salario");
+        String departamento = redisClient.get(funcKey+"departamento");
+        List<String> dependentes = redisClient.lrange(funcKey+"dependentes", 0, -1);
 
-        redisClient.set(userKey+"endereco", funcionario.getEndereco());
+        Funcionario funcionario = new Funcionario();
 
-        redisClient.set(userKey+"sexo", funcionario.getSexo());
+        funcionario.setId(id);
+        funcionario.setNome(nome);
+        funcionario.setEndereco(endereco);
+        funcionario.setSexo(sexo);
+        funcionario.setDataNascimento(data_nascimento);
+        funcionario.setSalario(Double.parseDouble(salario));
+        funcionario.setDepartamento(departamento);
+        funcionario.setDependentes(dependentes);
 
-        redisClient.set(userKey+"data_nascimento", funcionario.getDataNascimento());
+        return funcionario;
+    }
 
-        redisClient.set(userKey+"salario", String.valueOf(funcionario.getSalario()));
+    private void save(Funcionario funcionario, String funcKey) {
 
-        redisClient.set(userKey+"departamento", String.valueOf(funcionario.getDepartamento()));
+        redisClient.set(funcKey+"nome", funcionario.getNome());
 
-        for(Dependente dependente: funcionario.getDependentes()) {
-            redisClient.rpush(userKey+"dependentes", String.valueOf(dependente));
+        redisClient.set(funcKey+"endereco", funcionario.getEndereco());
+
+        redisClient.set(funcKey+"sexo", funcionario.getSexo());
+
+        redisClient.set(funcKey+"data_nascimento", funcionario.getDataNascimento());
+
+        redisClient.set(funcKey+"salario", String.valueOf(funcionario.getSalario()));
+
+        redisClient.set(funcKey+"departamento", String.valueOf(funcionario.getDepartamento()));
+
+        for(String dependente: funcionario.getDependentes()) {
+            redisClient.rpush(funcKey+"dependentes", String.valueOf(dependente));
         }
 
     }

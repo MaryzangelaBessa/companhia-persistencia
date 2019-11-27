@@ -17,10 +17,10 @@ public class Funcionario {
     private String sexo;
     private String dataNascimento;
     private Double salario;
-    private Departamento departamento;
-    private List<Dependente> dependentes;
+    private String departamento;
+    private List<String> dependentes;
 
-    public Funcionario(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento) {
+    public Funcionario(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento) {
         this.id = null;
         this.nome = nome;
         this.endereco = endereco;
@@ -28,7 +28,7 @@ public class Funcionario {
         this.dataNascimento = dataNascimento;
         this.salario = salario;
         this.departamento = departamento;
-        this.dependentes = new ArrayList<Dependente>();
+        this.dependentes = new ArrayList<String>();
     }
 
     @Override
