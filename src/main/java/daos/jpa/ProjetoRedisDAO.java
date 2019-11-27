@@ -16,26 +16,26 @@ public class ProjetoRedisDAO extends GenericRedisDAO<Projeto> implements Projeto
 
     @Override
     public void insert(Projeto projeto) {
-        String funcKey = "projetos:"+projeto.getNumero()+":";
-        redisClient.set(funcKey+"id", String.valueOf(projeto.getNumero()));
-        save(projeto, funcKey);
+        String projKey = "projetos:"+projeto.getNumero()+":";
+        redisClient.set(projKey+"id", String.valueOf(projeto.getNumero()));
+        save(projeto, projKey);
     }
 
     @Override
     public void update(Projeto projeto) {
         // deletar coleções para que possam ser inseridas novamente
-        String funcKey = "projetos:"+projeto.getNumero()+":";
-        redisClient.del(funcKey+"horas_duracao");
-        redisClient.del(funcKey+"departamento");
-        redisClient.del(funcKey+"pesquisadores");
-        save(projeto, funcKey);
+        String projKey = "projetos:"+projeto.getNumero()+":";
+        redisClient.del(projKey+"horas_duracao");
+        redisClient.del(projKey+"departamento");
+        redisClient.del(projKey+"pesquisadores");
+        save(projeto, projKey);
     }
 
     @Override
     public Projeto find(Object id) {
-        String funcKey = "projetos:"+id+":";
-        if(redisClient.get(funcKey+"id") == null) return null;
-        return fromRedis((Long) id, funcKey);
+        String projKey = "projetos:"+id+":";
+        if(redisClient.get(projKey+"id") == null) return null;
+        return fromRedis((Long) id, projKey);
     }
 
     @Override
@@ -45,18 +45,18 @@ public class ProjetoRedisDAO extends GenericRedisDAO<Projeto> implements Projeto
         Set<String> keys = redisClient.keys("projetos:*:id");
         for(String key : keys) {
             Long id = Long.parseLong(redisClient.get(key));
-            String funcKey = "projetos:"+id+":";
-            projetos.add(fromRedis(id, funcKey));
+            String projKey = "projetos:"+id+":";
+            projetos.add(fromRedis(id, projKey));
         }
         return projetos;
     }
 
-    private Projeto fromRedis(Long id, String funcKey) {
+    private Projeto fromRedis(Long id, String projKey) {
 
-        String nome = redisClient.get(funcKey+"nome");
-        String horas_duracao = redisClient.get(funcKey+"horas_duracao");
-        String departamento = redisClient.get(funcKey+"departamento");
-        List<String> pesquisadores = redisClient.lrange(funcKey+"pesquisadores", 0, -1);
+        String nome = redisClient.get(projKey+"nome");
+        String horas_duracao = redisClient.get(projKey+"horas_duracao");
+        String departamento = redisClient.get(projKey+"departamento");
+        List<String> pesquisadores = redisClient.lrange(projKey+"pesquisadores", 0, -1);
 
         Projeto projeto = new Projeto();
 

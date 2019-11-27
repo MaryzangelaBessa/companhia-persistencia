@@ -14,26 +14,26 @@ public class DependenteRedisDAO extends GenericRedisDAO<Dependente> implements D
 
     @Override
     public void insert(Dependente dependente) {
-        String funcKey = "dependentes:"+dependente.getId()+":";
-        redisClient.set(funcKey+"id", String.valueOf(dependente.getId()));
-        save(dependente, funcKey);
+        String depenKey = "dependentes:"+dependente.getId()+":";
+        redisClient.set(depenKey+"id", String.valueOf(dependente.getId()));
+        save(dependente, depenKey);
     }
 
     @Override
     public void update(Dependente dependente) {
         // deletar coleções para que possam ser inseridas novamente
-        String funcKey = "dependentes:"+dependente.getId()+":";
-        redisClient.del(funcKey+"sexo");
-        redisClient.del(funcKey+"data_nascimento");
-        redisClient.del(funcKey+"funcionario");
-        save(dependente, funcKey);
+        String depenKey = "dependentes:"+dependente.getId()+":";
+        redisClient.del(depenKey+"sexo");
+        redisClient.del(depenKey+"data_nascimento");
+        redisClient.del(depenKey+"funcionario");
+        save(dependente, depenKey);
     }
 
     @Override
     public Dependente find(Object id) {
-        String funcKey = "dependentes:"+id+":";
-        if(redisClient.get(funcKey+"id") == null) return null;
-        return fromRedis((Long) id, funcKey);
+        String depenKey = "dependentes:"+id+":";
+        if(redisClient.get(depenKey+"id") == null) return null;
+        return fromRedis((Long) id, depenKey);
     }
 
     @Override
@@ -43,18 +43,18 @@ public class DependenteRedisDAO extends GenericRedisDAO<Dependente> implements D
         Set<String> keys = redisClient.keys("dependentes:*:id");
         for(String key : keys) {
             Long id = Long.parseLong(redisClient.get(key));
-            String funcKey = "dependentes:"+id+":";
-            dependentes.add(fromRedis(id, funcKey));
+            String depenKey = "dependentes:"+id+":";
+            dependentes.add(fromRedis(id, depenKey));
         }
         return dependentes;
     }
 
-    private Dependente fromRedis(Long id, String funcKey) {
+    private Dependente fromRedis(Long id, String depenKey) {
 
-        String nome = redisClient.get(funcKey+"nome");
-        String sexo = redisClient.get(funcKey+"sexo");
-        String data_nascimento = redisClient.get(funcKey+"data_nascimento");
-        String funcionario = redisClient.get(funcKey+"funcionario");
+        String nome = redisClient.get(depenKey+"nome");
+        String sexo = redisClient.get(depenKey+"sexo");
+        String data_nascimento = redisClient.get(depenKey+"data_nascimento");
+        String funcionario = redisClient.get(depenKey+"funcionario");
 
         Dependente dependente = new Dependente();
 
@@ -67,15 +67,15 @@ public class DependenteRedisDAO extends GenericRedisDAO<Dependente> implements D
         return dependente;
     }
 
-    private void save(Dependente dependente, String funcKey) {
+    private void save(Dependente dependente, String depenKey) {
 
-        redisClient.set(funcKey+"nome", dependente.getNome());
+        redisClient.set(depenKey+"nome", dependente.getNome());
 
-        redisClient.set(funcKey+"sexo", dependente.getSexo());
+        redisClient.set(depenKey+"sexo", dependente.getSexo());
 
-        redisClient.set(funcKey+"data_nascimento", dependente.getDataNascimento());
+        redisClient.set(depenKey+"data_nascimento", dependente.getDataNascimento());
 
-        redisClient.set(funcKey+"funcionario", dependente.getFuncionario());
+        redisClient.set(depenKey+"funcionario", dependente.getFuncionario());
 
     }
 }

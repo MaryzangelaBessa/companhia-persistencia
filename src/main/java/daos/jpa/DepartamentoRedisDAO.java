@@ -14,25 +14,25 @@ public class DepartamentoRedisDAO extends GenericRedisDAO<Departamento> implemen
 
     @Override
     public void insert(Departamento departamento) {
-        String funcKey = "departamentos:"+departamento.getNumero()+":";
-        redisClient.set(funcKey+"id", String.valueOf(departamento.getNumero()));
-        save(departamento, funcKey);
+        String departKey = "departamentos:"+departamento.getNumero()+":";
+        redisClient.set(departKey+"id", String.valueOf(departamento.getNumero()));
+        save(departamento, departKey);
     }
 
     @Override
     public void update(Departamento departamento) {
         // deletar coleções para que possam ser inseridas novamente
-        String funcKey = "departamentos:"+departamento.getNumero()+":";
-        redisClient.del(funcKey+"funcionarios");
-        redisClient.del(funcKey+"projetos");
-        save(departamento, funcKey);
+        String departKey = "departamentos:"+departamento.getNumero()+":";
+        redisClient.del(departKey+"funcionarios");
+        redisClient.del(departKey+"projetos");
+        save(departamento, departKey);
     }
 
     @Override
     public Departamento find(Object id) {
-        String funcKey = "departamentos:"+id+":";
-        if(redisClient.get(funcKey+"id") == null) return null;
-        return fromRedis((Long) id, funcKey);
+        String departKey = "departamentos:"+id+":";
+        if(redisClient.get(departKey+"id") == null) return null;
+        return fromRedis((Long) id, departKey);
     }
 
     @Override
@@ -42,17 +42,17 @@ public class DepartamentoRedisDAO extends GenericRedisDAO<Departamento> implemen
         Set<String> keys = redisClient.keys("departamentos:*:id");
         for(String key : keys) {
             Long id = Long.parseLong(redisClient.get(key));
-            String funcKey = "departamentos:"+id+":";
-            departamentos.add(fromRedis(id, funcKey));
+            String departKey = "departamentos:"+id+":";
+            departamentos.add(fromRedis(id, departKey));
         }
         return departamentos;
     }
 
-    private Departamento fromRedis(Long id, String funcKey) {
+    private Departamento fromRedis(Long id, String departKey) {
 
-        String nome = redisClient.get(funcKey+"nome");
-        List<String> funcionarios = redisClient.lrange(funcKey+"funcionarios", 0, -1);
-        List<String> projetos = redisClient.lrange(funcKey+"projetos", 0, -1);
+        String nome = redisClient.get(departKey+"nome");
+        List<String> funcionarios = redisClient.lrange(departKey+"funcionarios", 0, -1);
+        List<String> projetos = redisClient.lrange(departKey+"projetos", 0, -1);
 
         Departamento departamento = new Departamento();
 
@@ -63,16 +63,16 @@ public class DepartamentoRedisDAO extends GenericRedisDAO<Departamento> implemen
         return departamento;
     }
 
-    private void save(Departamento departamento, String funcKey) {
+    private void save(Departamento departamento, String departKey) {
 
-        redisClient.set(funcKey+"nome", departamento.getNome());
+        redisClient.set(departKey+"nome", departamento.getNome());
 
         for(String funcionario: departamento.getFuncionarios()) {
-            redisClient.rpush(funcKey+"funcionarios", funcionario);
+            redisClient.rpush(departKey+"funcionarios", funcionario);
         }
 
         for(String projeto: departamento.getProjetos()) {
-            redisClient.rpush(funcKey+"projetos", projeto);
+            redisClient.rpush(departKey+"projetos", projeto);
         }
 
     }

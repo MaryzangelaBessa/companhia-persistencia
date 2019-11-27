@@ -14,30 +14,30 @@ public class SecretarioRedisDAO extends GenericRedisDAO<Secretario> implements S
 
     @Override
     public void insert(Secretario secretario) {
-        String funcKey = "secretarios:"+secretario.getId()+":";
-        redisClient.set(funcKey+"id", String.valueOf(secretario.getId()));
-        save(secretario, funcKey);
+        String secKey = "secretarios:"+secretario.getId()+":";
+        redisClient.set(secKey+"id", String.valueOf(secretario.getId()));
+        save(secretario, secKey);
     }
 
     @Override
     public void update(Secretario secretario) {
         // deletar coleções para que possam ser inseridas novamente
-        String funcKey = "secretarios:"+secretario.getId()+":";
-        redisClient.del(funcKey+"endereco");
-        redisClient.del(funcKey+"sexo");
-        redisClient.del(funcKey+"data_nascimento");
-        redisClient.del(funcKey+"salario");
-        redisClient.del(funcKey+"departamento");
-        redisClient.del(funcKey+"dependentes");
-        redisClient.del(funcKey+"grau_escolaridade");
-        save(secretario, funcKey);
+        String secKey = "secretarios:"+secretario.getId()+":";
+        redisClient.del(secKey+"endereco");
+        redisClient.del(secKey+"sexo");
+        redisClient.del(secKey+"data_nascimento");
+        redisClient.del(secKey+"salario");
+        redisClient.del(secKey+"departamento");
+        redisClient.del(secKey+"dependentes");
+        redisClient.del(secKey+"grau_escolaridade");
+        save(secretario, secKey);
     }
 
     @Override
     public Secretario find(Object id) {
-        String funcKey = "secretarios:"+id+":";
-        if(redisClient.get(funcKey+"id") == null) return null;
-        return fromRedis((Long) id, funcKey);
+        String secKey = "secretarios:"+id+":";
+        if(redisClient.get(secKey+"id") == null) return null;
+        return fromRedis((Long) id, secKey);
     }
 
     @Override
@@ -47,22 +47,22 @@ public class SecretarioRedisDAO extends GenericRedisDAO<Secretario> implements S
         Set<String> keys = redisClient.keys("secretarios:*:id");
         for(String key : keys) {
             Long id = Long.parseLong(redisClient.get(key));
-            String funcKey = "secretarios:"+id+":";
-            secretarios.add(fromRedis(id, funcKey));
+            String secKey = "secretarios:"+id+":";
+            secretarios.add(fromRedis(id, secKey));
         }
         return secretarios;
     }
 
-    private Secretario fromRedis(Long id, String funcKey) {
+    private Secretario fromRedis(Long id, String secKey) {
 
-        String nome = redisClient.get(funcKey+"nome");
-        String endereco = redisClient.get(funcKey+"endereco");
-        String sexo = redisClient.get(funcKey+"sexo");
-        String data_nascimento = redisClient.get(funcKey+"data_nascimento");
-        String salario = redisClient.get(funcKey+"salario");
-        String departamento = redisClient.get(funcKey+"departamento");
-        List<String> dependentes = redisClient.lrange(funcKey+"dependentes", 0, -1);
-        String grau_escolaridade = redisClient.get(funcKey+"grau_escolaridade");
+        String nome = redisClient.get(secKey+"nome");
+        String endereco = redisClient.get(secKey+"endereco");
+        String sexo = redisClient.get(secKey+"sexo");
+        String data_nascimento = redisClient.get(secKey+"data_nascimento");
+        String salario = redisClient.get(secKey+"salario");
+        String departamento = redisClient.get(secKey+"departamento");
+        List<String> dependentes = redisClient.lrange(secKey+"dependentes", 0, -1);
+        String grau_escolaridade = redisClient.get(secKey+"grau_escolaridade");
 
         Secretario secretario = new Secretario();
 
@@ -79,24 +79,24 @@ public class SecretarioRedisDAO extends GenericRedisDAO<Secretario> implements S
         return secretario;
     }
 
-    private void save(Secretario secretario, String funcKey) {
+    private void save(Secretario secretario, String secKey) {
 
-        redisClient.set(funcKey+"nome", secretario.getNome());
+        redisClient.set(secKey+"nome", secretario.getNome());
 
-        redisClient.set(funcKey+"endereco", secretario.getEndereco());
+        redisClient.set(secKey+"endereco", secretario.getEndereco());
 
-        redisClient.set(funcKey+"sexo", secretario.getSexo());
+        redisClient.set(secKey+"sexo", secretario.getSexo());
 
-        redisClient.set(funcKey+"data_nascimento", secretario.getDataNascimento());
+        redisClient.set(secKey+"data_nascimento", secretario.getDataNascimento());
 
-        redisClient.set(funcKey+"salario", String.valueOf(secretario.getSalario()));
+        redisClient.set(secKey+"salario", String.valueOf(secretario.getSalario()));
 
-        redisClient.set(funcKey+"departamento", secretario.getDepartamento());
+        redisClient.set(secKey+"departamento", secretario.getDepartamento());
 
         for(String dependente: secretario.getDependentes()) {
-            redisClient.rpush(funcKey+"dependentes", dependente);
+            redisClient.rpush(secKey+"dependentes", dependente);
         }
 
-        redisClient.set(funcKey+"grau_escolaridade", secretario.getGrauEscoladidade());
+        redisClient.set(secKey+"grau_escolaridade", secretario.getGrauEscoladidade());
     }
 }

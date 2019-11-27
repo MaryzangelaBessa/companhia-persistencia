@@ -12,12 +12,12 @@ import java.util.List;
 public class Pesquisador extends Funcionario {
 
     private String areaAtuacao;
-    private List<Projeto> projetos;
+    private List<String> projetos;
 
-    public Pesquisador(String nome, String endereco, String sexo, String dataNascimento, Double salario, Departamento departamento, String areaAtuacao) {
+    public Pesquisador(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento, String areaAtuacao) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.areaAtuacao = areaAtuacao;
-        this.projetos = new ArrayList<Projeto>();
+        this.projetos = new ArrayList<String>();
     }
 
     @Override
