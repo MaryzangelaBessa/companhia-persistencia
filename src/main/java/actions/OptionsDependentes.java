@@ -3,12 +3,10 @@ package actions;
 import actions.contracts.OptionsDependentesI;
 import daos.DependenteDAO;
 import daos.FuncionarioDAO;
-import daos.jpa.DependenteJPADAO;
-import daos.jpa.FuncionarioJPADAO;
-import models.Departamento;
+import daos.jpa.DependenteRedisDAO;
+import daos.jpa.FuncionarioRedisDAO;
 import models.Dependente;
 import models.Funcionario;
-import models.Projeto;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -18,8 +16,8 @@ public class OptionsDependentes implements OptionsDependentesI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
-    private static DependenteDAO depDAO = new DependenteJPADAO();
+    private static FuncionarioDAO fDAO = new FuncionarioRedisDAO();
+    private static DependenteDAO depDAO = new DependenteRedisDAO();
 
 
     @Override

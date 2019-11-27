@@ -3,8 +3,8 @@ package actions;
 import actions.contracts.OptionsProjetosI;
 import daos.DepartamentoDAO;
 import daos.ProjetoDAO;
-import daos.jpa.DepartamentoJPADAO;
-import daos.jpa.ProjetoJPADAO;
+import daos.jpa.DepartamentoRedisDAO;
+import daos.jpa.ProjetoRedisDAO;
 import models.Departamento;
 import models.Projeto;
 
@@ -16,8 +16,8 @@ public class OptionsProjetos implements OptionsProjetosI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
-    private static ProjetoDAO pDAO = new ProjetoJPADAO();
+    private static DepartamentoDAO dDAO = new DepartamentoRedisDAO();
+    private static ProjetoDAO pDAO = new ProjetoRedisDAO();
 
     @Override
     public void cadastrarProjeto() {

@@ -1,19 +1,16 @@
 package actions;
 
 import actions.contracts.OptionsDepartamentoI;
-import actions.contracts.OptionsProjetosI;
 import daos.DepartamentoDAO;
-import daos.jpa.DepartamentoJPADAO;
+import daos.jpa.DepartamentoRedisDAO;
 import models.Departamento;
-
-import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
 public class OptionsDepartamento implements OptionsDepartamentoI {
 
     private static Scanner scanner = new Scanner(System.in);
-    private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
+    private static DepartamentoDAO dDAO = new DepartamentoRedisDAO();
 
     @Override
     public void cadastrarDepartamento() {
@@ -24,7 +21,7 @@ public class OptionsDepartamento implements OptionsDepartamentoI {
             nomeDepartamento = scanner.nextLine();
             dDAO.save(new Departamento(nomeDepartamento));
             dDAO.commit();
-        } catch (IllegalStateException | PersistenceException e) {
+        } catch (IllegalStateException e) {
             dDAO.rollback();
             e.printStackTrace();
         } finally {
@@ -42,7 +39,6 @@ public class OptionsDepartamento implements OptionsDepartamentoI {
         }
     }
 
-    // Todo: ajeitar o commit
     @Override
     public void deletarDepartamento() {
         Long numDepartamento = null;
@@ -58,7 +54,7 @@ public class OptionsDepartamento implements OptionsDepartamentoI {
                     break;
                 }
             }
-        } catch (IllegalStateException | PersistenceException e) {
+        } catch (IllegalStateException e) {
             dDAO.rollback();
             e.printStackTrace();
         } finally {

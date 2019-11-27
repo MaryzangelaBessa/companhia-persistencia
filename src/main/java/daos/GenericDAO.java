@@ -4,17 +4,15 @@ import java.util.List;
 
 public interface GenericDAO<T> {
 
-    void save(T entity);
+    public void insert(T t);
 
-    void delete(T entity);
+    public void update(T t);
 
-    List<T> findAll();
+    public void delete(Object id);
 
-    void beginTransaction();
+    public T find(Object id);
 
-    void commit();
+    public List<T> findAll();
 
-    void rollback();
-
-    void close();
+    public void close();
 }

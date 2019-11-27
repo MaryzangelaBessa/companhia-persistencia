@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class OptionsFuncionarios implements OptionsFuncionariosI {
     private static Scanner scanner = new Scanner(System.in);
 
-    private static DepartamentoDAO dDAO = new DepartamentoJPADAO();
-    private static FuncionarioDAO fDAO = new FuncionarioJPADAO();
-    private static PesquisadorDAO pesqDAO = new PesquisadorJPADAO();
-    private static SecretarioDAO secDAO = new SecretarioJPADAO();
-    private static AuxLimpezaDAO auxDAO = new AuxLimpezaJPADAO();
+    private static DepartamentoDAO dDAO = new DepartamentoRedisDAO();
+    private static FuncionarioDAO fDAO = new FuncionarioRedisDAO();
+    private static PesquisadorDAO pesqDAO = new PesquisadorRedisDAO();
+    private static SecretarioDAO secDAO = new SecretarioRedisDAO();
+    private static AuxLimpezaDAO auxDAO = new AuxLimpezaRedisDAO();
 
 
     @Override
