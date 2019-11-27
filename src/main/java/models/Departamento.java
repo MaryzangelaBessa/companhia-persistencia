@@ -12,14 +12,14 @@ public class Departamento {
 
     private Long numero;
     private String nome;
-    private List<Funcionario> funcionarios;
-    private List<Projeto> projetos;
+    private List<String> funcionarios;
+    private List<String> projetos;
 
     public Departamento(String nome) {
         this.numero = null;
         this.nome = nome;
-        this.funcionarios = new ArrayList<Funcionario>();
-        this.projetos = new ArrayList<Projeto>();
+        this.funcionarios = new ArrayList<String>();
+        this.projetos = new ArrayList<String>();
     }
 
     @Override

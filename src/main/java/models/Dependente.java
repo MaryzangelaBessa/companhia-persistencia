@@ -11,9 +11,9 @@ public class Dependente {
     private String nome;
     private String sexo;
     private String dataNascimento;
-    private Funcionario funcionario;
+    private String funcionario;
 
-    public Dependente(String nome, String sexo, String dataNascimento, Funcionario funcionario) {
+    public Dependente(String nome, String sexo, String dataNascimento, String funcionario) {
         this.id = null;
         this.nome = nome;
         this.sexo = sexo;
