@@ -2,10 +2,8 @@ package actions;
 
 import actions.contracts.OptionsFuncionariosI;
 import daos.*;
-import daos.jpa.*;
+import daos.redis.*;
 import models.*;
-
-import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,7 +25,7 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
         String endFuncionario = null;
         String sexoFuncionario = null;
         String dataNascFuncionario = null;
-        Double salario = null;
+        String salario = null;
         String areaAtuacao = null;
         String grauEscoladidade = null;
         String cargo = null;
@@ -35,12 +33,11 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
 
         try {
 
-            dDAO.beginTransaction();
-
             List<Departamento> departamentos = dDAO.findAll();
 
             System.out.println("Digite o número do departamento que o funcionário pertencerá: ");
             numDepartamento = Long.parseLong(scanner.nextLine());
+            String nDep = String.valueOf(numDepartamento);
             System.out.println("Digite o nome do funcionário que será cadastrado: ");
             nomeFuncionario = scanner.nextLine();
             System.out.println("Digite o endereço do funcionário que será cadastrado: ");
@@ -50,7 +47,7 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
             System.out.println("Digite a data de nascimento do funcionário que será cadastrado: ");
             dataNascFuncionario = scanner.nextLine();
             System.out.println("Digite o salário do funcionário que será cadastrado: ");
-            salario = Double.parseDouble(scanner.nextLine());
+            salario = scanner.nextLine();
 
             System.out.println("Escolha um tipo de funcionário:");
             System.out.println("1 - Pesquisador");
@@ -65,14 +62,12 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
 
                     for (Departamento departamento : departamentos) {
                         if (departamento.getNumero().equals(numDepartamento)) {
-                            Pesquisador pesquisador = new Pesquisador(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, areaAtuacao);
-                            fDAO.save(pesquisador);
-                            fDAO.commit();
-                            pesqDAO.save(pesquisador);
-                            pesqDAO.commit();
-                            departamento.getFuncionarios().add(pesquisador);
-                            dDAO.save(departamento);
-                            dDAO.commit();
+
+                            Pesquisador pesquisador = new Pesquisador(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, nDep, areaAtuacao);
+                            fDAO.insert(pesquisador);
+                            pesqDAO.insert(pesquisador);
+                            departamento.getFuncionarios().add(String.valueOf(pesquisador));
+                            dDAO.insert(departamento);
                             break;
                         }
                     }
@@ -84,14 +79,11 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
 
                     for (Departamento departamento : departamentos) {
                         if (departamento.getNumero().equals(numDepartamento)) {
-                            Secretario secretario = new Secretario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, grauEscoladidade);
-                            fDAO.save(secretario);
-                            fDAO.commit();
-                            secDAO.save(secretario);
-                            secDAO.commit();
-                            departamento.getFuncionarios().add(secretario);
-                            dDAO.save(departamento);
-                            dDAO.commit();
+                            Secretario secretario = new Secretario(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, nDep, grauEscoladidade);
+                            fDAO.insert(secretario);
+                            secDAO.insert(secretario);
+                            departamento.getFuncionarios().add(String.valueOf(secretario));
+                            dDAO.insert(departamento);
                             break;
                         }
                     }
@@ -105,14 +97,11 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
 
                     for (Departamento departamento : departamentos) {
                         if (departamento.getNumero().equals(numDepartamento)) {
-                            AuxLimpeza auxLimpeza = new AuxLimpeza(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, departamento, cargo, horasJornadaTrabalho);
-                            fDAO.save(auxLimpeza);
-                            fDAO.commit();
-                            auxDAO.save(auxLimpeza);
-                            auxDAO.commit();
-                            departamento.getFuncionarios().add(auxLimpeza);
-                            dDAO.save(departamento);
-                            dDAO.commit();
+                            AuxLimpeza auxLimpeza = new AuxLimpeza(nomeFuncionario, endFuncionario, sexoFuncionario, dataNascFuncionario, salario, nDep, cargo, horasJornadaTrabalho);
+                            fDAO.insert(auxLimpeza);
+                            auxDAO.insert(auxLimpeza);
+                            departamento.getFuncionarios().add(String.valueOf(auxLimpeza));
+                            dDAO.insert(departamento);
                             break;
                         }
                     }
@@ -123,9 +112,7 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
                     break;
             }
 
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            fDAO.rollback();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         } finally {
             dDAO.close();
@@ -179,8 +166,6 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
 
         try {
 
-            dDAO.beginTransaction();
-
             System.out.println("Digite o id do funcionário a ser excluído: ");
             idFuncionario = Long.parseLong(scanner.nextLine());
 
@@ -191,31 +176,21 @@ public class OptionsFuncionarios implements OptionsFuncionariosI {
                 if(funcionario.getId().equals(idFuncionario)){
                     if (funcionario instanceof Pesquisador){
                         pesqDAO.delete((Pesquisador) funcionario);
-                        pesqDAO.commit();
                     } else if (funcionario instanceof Secretario) {
                         secDAO.delete((Secretario) funcionario);
-                        secDAO.commit();
                     } else if (funcionario instanceof AuxLimpeza){
                         auxDAO.delete((AuxLimpeza) funcionario);
-                        auxDAO.commit();
                     }
                     fDAO.delete(funcionario);
-                    fDAO.commit();
                     for (Departamento departamento : departamentos) {
-                        if (funcionario.getDepartamento().getNumero().equals(departamento.getNumero())){
+                        if (funcionario.getDepartamento().equals(departamento.getNome())){
                             departamento.getFuncionarios().remove(funcionario);
-                            dDAO.commit();
                             break;
                         }
                     }
                 }
             }
-        } catch (IllegalStateException | PersistenceException e) {
-            pesqDAO.rollback();
-            secDAO.rollback();
-            auxDAO.rollback();
-            fDAO.rollback();
-            dDAO.rollback();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         } finally {
             pesqDAO.close();

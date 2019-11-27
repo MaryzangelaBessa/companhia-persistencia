@@ -1,7 +1,6 @@
-package daos.jpa;
+package daos.redis;
 
 import daos.ProjetoDAO;
-import models.Funcionario;
 import models.Projeto;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package actions;
 
 import actions.contracts.OptionsDepartamentoI;
 import daos.DepartamentoDAO;
-import daos.jpa.DepartamentoRedisDAO;
+import daos.redis.DepartamentoRedisDAO;
 import models.Departamento;
 import java.util.List;
 import java.util.Scanner;
@@ -16,13 +16,10 @@ public class OptionsDepartamento implements OptionsDepartamentoI {
     public void cadastrarDepartamento() {
         String nomeDepartamento = null;
         try {
-            dDAO.beginTransaction();
             System.out.println("Digite o nome do departamento a ser cadastrado: ");
             nomeDepartamento = scanner.nextLine();
-            dDAO.save(new Departamento(nomeDepartamento));
-            dDAO.commit();
+            dDAO.insert(new Departamento(nomeDepartamento));
         } catch (IllegalStateException e) {
-            dDAO.rollback();
             e.printStackTrace();
         } finally {
             dDAO.close();
@@ -43,19 +40,16 @@ public class OptionsDepartamento implements OptionsDepartamentoI {
     public void deletarDepartamento() {
         Long numDepartamento = null;
         try {
-            dDAO.beginTransaction();
             System.out.println("Digite o número do departamento a ser excluído: ");
             numDepartamento = Long.parseLong(scanner.nextLine());
             List<Departamento> departamentos = dDAO.findAll();
             for (Departamento departamento : departamentos) {
                 if (departamento.getNumero().equals(numDepartamento)) {
-                    dDAO.delete(departamento);
-                    dDAO.commit();
+                    dDAO.delete(departamento.getNumero());
                     break;
                 }
             }
         } catch (IllegalStateException e) {
-            dDAO.rollback();
             e.printStackTrace();
         } finally {
             dDAO.close();

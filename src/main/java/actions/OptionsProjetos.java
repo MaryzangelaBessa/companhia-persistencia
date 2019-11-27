@@ -3,8 +3,8 @@ package actions;
 import actions.contracts.OptionsProjetosI;
 import daos.DepartamentoDAO;
 import daos.ProjetoDAO;
-import daos.jpa.DepartamentoRedisDAO;
-import daos.jpa.ProjetoRedisDAO;
+import daos.redis.DepartamentoRedisDAO;
+import daos.redis.ProjetoRedisDAO;
 import models.Departamento;
 import models.Projeto;
 

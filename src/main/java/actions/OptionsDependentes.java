@@ -3,8 +3,8 @@ package actions;
 import actions.contracts.OptionsDependentesI;
 import daos.DependenteDAO;
 import daos.FuncionarioDAO;
-import daos.jpa.DependenteRedisDAO;
-import daos.jpa.FuncionarioRedisDAO;
+import daos.redis.DependenteRedisDAO;
+import daos.redis.FuncionarioRedisDAO;
 import models.Dependente;
 import models.Funcionario;
 
@@ -100,7 +100,7 @@ public class OptionsDependentes implements OptionsDependentesI {
                     }
                 }
             }
-        } catch (IllegalStateException | PersistenceException e) {
+        } catch (IllegalStateException e) {
             depDAO.rollback();
             fDAO.rollback();
             e.printStackTrace();

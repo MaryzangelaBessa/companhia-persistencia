@@ -1,4 +1,4 @@
-package daos.jpa;
+package daos.redis;
 
 import daos.GenericDAO;
 import redis.RedisUtil;

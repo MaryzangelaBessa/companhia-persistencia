@@ -16,11 +16,11 @@ public class Funcionario {
     private String endereco;
     private String sexo;
     private String dataNascimento;
-    private Double salario;
+    private String salario;
     private String departamento;
     private List<String> dependentes;
 
-    public Funcionario(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento) {
+    public Funcionario(String nome, String endereco, String sexo, String dataNascimento, String salario, String departamento) {
         this.id = null;
         this.nome = nome;
         this.endereco = endereco;

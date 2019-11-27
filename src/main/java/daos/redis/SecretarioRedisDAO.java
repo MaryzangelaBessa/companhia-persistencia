@@ -1,4 +1,4 @@
-package daos.jpa;
+package daos.redis;
 
 import daos.SecretarioDAO;
 import models.Secretario;

@@ -1,8 +1,7 @@
-package daos.jpa;
+package daos.redis;
 
 import daos.PesquisadorDAO;
 import models.Pesquisador;
-import models.Secretario;
 
 import java.util.ArrayList;
 import java.util.List;

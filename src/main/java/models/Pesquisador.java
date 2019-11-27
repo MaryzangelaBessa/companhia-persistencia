@@ -14,7 +14,7 @@ public class Pesquisador extends Funcionario {
     private String areaAtuacao;
     private List<String> projetos;
 
-    public Pesquisador(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento, String areaAtuacao) {
+    public Pesquisador(String nome, String endereco, String sexo, String dataNascimento, String salario, String departamento, String areaAtuacao) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.areaAtuacao = areaAtuacao;
         this.projetos = new ArrayList<String>();

@@ -11,7 +11,7 @@ public class Secretario extends Funcionario {
 
     private String grauEscoladidade;
     
-    public Secretario(String nome, String endereco, String sexo, String dataNascimento, Double salario, String departamento, String grauEscoladidade) {
+    public Secretario(String nome, String endereco, String sexo, String dataNascimento, String salario, String departamento, String grauEscoladidade) {
         super(nome, endereco, sexo, dataNascimento, salario, departamento);
         this.grauEscoladidade = grauEscoladidade;
     }
