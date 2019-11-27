@@ -6,7 +6,6 @@ import java.util.List;
 
 @Getter
 @Setter
-//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Projeto {
@@ -14,14 +13,14 @@ public class Projeto {
     private Long numero;
     private String nome;
     private int horasDuracao;
-    private Departamento departamento;
-    private List<Pesquisador> pesquisadores;
+    private String departamento;
+    private List<String> pesquisadores;
 
-    public Projeto(String nome, int horasDuracao, Departamento departamento) {
+    public Projeto(String nome, int horasDuracao, String departamento) {
         this.nome = nome;
         this.horasDuracao = horasDuracao;
         this.departamento = departamento;
-        this.pesquisadores = new ArrayList<Pesquisador>();
+        this.pesquisadores = new ArrayList<String>();
     }
 
     @Override
@@ -29,6 +28,6 @@ public class Projeto {
         return ">  (" + numero +
                 ") " + nome +
                 "\n       " + horasDuracao + " horas de duração" +
-                "\n       Departamento de " + departamento.getNome();
+                "\n       Departamento de " + departamento;
     }
 }

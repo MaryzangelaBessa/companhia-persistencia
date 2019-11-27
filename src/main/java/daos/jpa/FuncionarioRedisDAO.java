@@ -47,7 +47,7 @@ public class FuncionarioRedisDAO extends GenericRedisDAO<Funcionario> implements
         Set<String> keys = redisClient.keys("funcionarios:*:id");
         for(String key : keys) {
             Long id = Long.parseLong(redisClient.get(key));
-            String funcKey = "users:"+id+":";
+            String funcKey = "funcionarios:"+id+":";
             funcionarios.add(fromRedis(id, funcKey));
         }
         return funcionarios;
@@ -89,10 +89,10 @@ public class FuncionarioRedisDAO extends GenericRedisDAO<Funcionario> implements
 
         redisClient.set(funcKey+"salario", String.valueOf(funcionario.getSalario()));
 
-        redisClient.set(funcKey+"departamento", String.valueOf(funcionario.getDepartamento()));
+        redisClient.set(funcKey+"departamento", funcionario.getDepartamento());
 
         for(String dependente: funcionario.getDependentes()) {
-            redisClient.rpush(funcKey+"dependentes", String.valueOf(dependente));
+            redisClient.rpush(funcKey+"dependentes", dependente);
         }
 
     }
