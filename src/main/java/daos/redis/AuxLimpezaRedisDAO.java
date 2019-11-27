@@ -75,7 +75,7 @@ public class AuxLimpezaRedisDAO extends GenericRedisDAO<AuxLimpeza> implements A
         auxLimpeza.setEndereco(endereco);
         auxLimpeza.setSexo(sexo);
         auxLimpeza.setDataNascimento(data_nascimento);
-        auxLimpeza.setSalario(Double.parseDouble(salario));
+        auxLimpeza.setSalario(salario);
         auxLimpeza.setDepartamento(departamento);
         auxLimpeza.setCargo(cargo);
         auxLimpeza.setHorasJornadaTrabalho(Integer.parseInt(horasJornadaTrabalhada));

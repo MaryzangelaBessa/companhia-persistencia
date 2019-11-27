@@ -70,7 +70,7 @@ public class FuncionarioRedisDAO extends GenericRedisDAO<Funcionario> implements
         funcionario.setEndereco(endereco);
         funcionario.setSexo(sexo);
         funcionario.setDataNascimento(data_nascimento);
-        funcionario.setSalario(Double.parseDouble(salario));
+        funcionario.setSalario(salario);
         funcionario.setDepartamento(departamento);
         funcionario.setDependentes(dependentes);
 

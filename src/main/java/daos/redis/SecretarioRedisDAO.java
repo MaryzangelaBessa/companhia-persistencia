@@ -71,7 +71,7 @@ public class SecretarioRedisDAO extends GenericRedisDAO<Secretario> implements S
         secretario.setEndereco(endereco);
         secretario.setSexo(sexo);
         secretario.setDataNascimento(data_nascimento);
-        secretario.setSalario(Double.parseDouble(salario));
+        secretario.setSalario(salario);
         secretario.setDepartamento(departamento);
         secretario.setDependentes(dependentes);
         secretario.setGrauEscoladidade(grau_escolaridade);

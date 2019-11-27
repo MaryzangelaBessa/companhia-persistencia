@@ -7,8 +7,6 @@ import daos.redis.DependenteRedisDAO;
 import daos.redis.FuncionarioRedisDAO;
 import models.Dependente;
 import models.Funcionario;
-
-import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,7 +28,6 @@ public class OptionsDependentes implements OptionsDependentesI {
         List<Funcionario> funcionarios = fDAO.findAll();
 
         try {
-            fDAO.beginTransaction();
 
             System.out.println("Digite o id do funcionário que o dependente pertencerá: ");
             idFuncionario = Long.parseLong(scanner.nextLine());
@@ -43,19 +40,15 @@ public class OptionsDependentes implements OptionsDependentesI {
 
             for (Funcionario funcionario : funcionarios) {
                 if (funcionario.getId().equals(idFuncionario)) {
-                    Dependente dependente = new Dependente(nomeDependente, sexoDependente, dataNascDependente, funcionario);
-                    depDAO.save(dependente);
-                    depDAO.commit();
-                    funcionario.getDependentes().add(dependente);
-                    fDAO.save(funcionario);
-                    fDAO.commit();
+                    Dependente dependente = new Dependente(nomeDependente, sexoDependente, dataNascDependente, funcionario.getNome());
+                    depDAO.insert(dependente);
+                    funcionario.getDependentes().add(String.valueOf(dependente));
+                    fDAO.insert(funcionario);
                     break;
                 }
             }
 
-        } catch (IllegalStateException | PersistenceException e) {
-            depDAO.rollback();
-            fDAO.rollback();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         } finally {
             depDAO.close();
@@ -78,9 +71,6 @@ public class OptionsDependentes implements OptionsDependentesI {
         Long idDependente;
 
         try {
-
-            fDAO.beginTransaction();
-
             System.out.println("Digite o id do dependente a ser excluído: ");
             idDependente = Long.parseLong(scanner.nextLine());
 
@@ -90,19 +80,15 @@ public class OptionsDependentes implements OptionsDependentesI {
             for (Dependente dependente : dependentes) {
                 if(dependente.getId().equals(idDependente)){
                     depDAO.delete(dependente);
-                    depDAO.commit();
                     for (Funcionario funcionario : funcionarios) {
-                        if (dependente.getFuncionario().getId().equals(funcionario.getId())){
+                        if (dependente.getFuncionario().equals(funcionario.getNome())){
                             funcionario.getDependentes().remove(dependente);
-                            fDAO.commit();
                             break;
                         }
                     }
                 }
             }
         } catch (IllegalStateException e) {
-            depDAO.rollback();
-            fDAO.rollback();
             e.printStackTrace();
         } finally {
             depDAO.close();

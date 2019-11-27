@@ -7,8 +7,6 @@ import daos.redis.DepartamentoRedisDAO;
 import daos.redis.ProjetoRedisDAO;
 import models.Departamento;
 import models.Projeto;
-
-import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +24,6 @@ public class OptionsProjetos implements OptionsProjetosI {
         int horasDuracao;
 
         try {
-            dDAO.beginTransaction();
 
             System.out.println("Digite o número do departamento que o projeto pertencerá: ");
             numDepartamento = Long.parseLong(scanner.nextLine());
@@ -39,19 +36,15 @@ public class OptionsProjetos implements OptionsProjetosI {
 
             for (Departamento departamento : departamentos) {
                 if (departamento.getNumero().equals(numDepartamento)) {
-                    Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento);
-                    pDAO.save(projeto);
-                    pDAO.commit();
-                    departamento.getProjetos().add(projeto);
-                    dDAO.save(departamento);
-                    dDAO.commit();
+                    Projeto projeto = new Projeto(nomeProjeto, horasDuracao, departamento.getNome());
+                    pDAO.insert(projeto);
+                    departamento.getProjetos().add(String.valueOf(projeto));
+                    dDAO.insert(departamento);
                     break;
                 }
             }
 
-        } catch (IllegalStateException | PersistenceException e) {
-            dDAO.rollback();
-            pDAO.rollback();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         } finally {
             dDAO.close();
@@ -75,8 +68,6 @@ public class OptionsProjetos implements OptionsProjetosI {
 
         try {
 
-            dDAO.beginTransaction();
-
             System.out.println("Digite o número do projeto a ser excluído: ");
             numProjeto = Long.parseLong(scanner.nextLine());
 
@@ -86,19 +77,15 @@ public class OptionsProjetos implements OptionsProjetosI {
             for (Projeto projeto : projetos) {
                 if(projeto.getNumero().equals(numProjeto)){
                     pDAO.delete(projeto);
-                    pDAO.commit();
                     for (Departamento departamento : departamentos) {
-                        if (projeto.getDepartamento().getNumero().equals(departamento.getNumero())){
+                        if (projeto.getDepartamento().equals(departamento.getNome())){
                             departamento.getProjetos().remove(projeto);
-                            dDAO.commit();
                             break;
                         }
                     }
                 }
             }
-        } catch (IllegalStateException | PersistenceException e) {
-            pDAO.rollback();
-            dDAO.rollback();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         } finally {
             pDAO.close();

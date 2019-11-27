@@ -74,7 +74,7 @@ public class PesquisadorRedisDAO extends GenericRedisDAO<Pesquisador> implements
         pesquisador.setEndereco(endereco);
         pesquisador.setSexo(sexo);
         pesquisador.setDataNascimento(data_nascimento);
-        pesquisador.setSalario(Double.parseDouble(salario));
+        pesquisador.setSalario(salario);
         pesquisador.setDepartamento(departamento);
         pesquisador.setDependentes(dependentes);
         pesquisador.setAreaAtuacao(area_atuacao);
